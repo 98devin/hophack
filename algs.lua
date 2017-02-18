@@ -1,5 +1,6 @@
 
-objects = require 'objects'
+resources = require 'resources'
+objects   = require 'objects'
 local Direction = objects.Direction
 
 function move(grid, block, direction)

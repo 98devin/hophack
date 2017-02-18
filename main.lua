@@ -1,6 +1,7 @@
 
-algs = require 'algs'
-objects = require 'objects'
+resources = require 'resources'
+algs      = require 'algs'
+objects   = require 'objects'
 local Direction = objects.Direction
 
 -- enum to keep track of our current state,
@@ -11,6 +12,9 @@ local GameState = {
 }
 
 function love.load()
+  -- set window mode
+  assert(love.window.setMode(500, 500))
+
   -- initialize levels
   selected_level_no = 1
   current_level_grid = nil
@@ -29,13 +33,10 @@ function love.load()
   }
   -- setup input table
   input = {}
-  
-  -- initialize fonts
-  fonts = {
-    main_font = love.graphics.newFont("/resources/fonts/Inconsolata.otf", 20)
-  }
-  love.graphics.setFont(fonts.main_font)
-  
+
+  -- setup default font
+  love.graphics.setFont(resources.fonts.main_font)
+
   -- initialize things relating to the menu
   game_state = GameState.IN_MENU
   menu = objects.Menu:new {
@@ -94,8 +95,10 @@ function love.update()
 end
 
 function love.draw()
+  love.graphics.clear(0, 0, 0)
   if game_state == GameState.IN_GAME then
-  	love.graphics.print(current_level_grid:to_string())
+  	--love.graphics.print(current_level_grid:to_string())
+    love.graphics.draw(current_level_grid:to_canvas(), 0, 0)
   elseif game_state == GameState.IN_MENU then
   	love.graphics.print(menu:to_string())
   end

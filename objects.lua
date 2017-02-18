@@ -1,4 +1,6 @@
 
+resources = require 'resources'
+
 -- Object, the root of our inheritance tree
 local Object = {}
 
@@ -45,11 +47,13 @@ local Direction = {
 local Square = Object:new {
   collision = Collision.EMPTY,
   occupied = false,
+  image    = resources.images.basic_floor,
   occupant = nil -- should contain a Block if occupied = true
 }
 
 local Block = Object:new {
 	collision = Collision.WALL,
+  image     = resources.images.basic_block,
   position = {
     x = nil,
     y = nil
@@ -89,17 +93,27 @@ function Grid.from_string(levelstr)
   for line in (levelstr .. "\n"):gmatch("([^\n]*)\n") do
   	for char in line:gmatch(".") do
       if char == " " then
-      	grid.squares[y][x] = Square:new{collision = Collision.EMPTY}
+      	grid.squares[y][x] = Square:new {
+          collision = Collision.EMPTY,
+          image     = resources.images.basic_floor
+        }
       elseif char == "b" then
         local block = Block:new {
-        	position = {x = x, y = y}
+        	position = {x = x, y = y},
+          image    = resources.images.basic_block
         }
         grid.squares[y][x] = Square:new {
-          collision=Collision.EMPTY, occupied=true, occupant=block
+          collision = Collision.EMPTY,
+          image     = resources.images.basic_floor,
+          occupied  = true,
+          occupant  = block
         }
         table.insert(grid.blocks, block)
       elseif char == "#" then   
-        grid.squares[y][x] = Square:new{collision = Collision.WALL}
+        grid.squares[y][x] = Square:new {
+          collision = Collision.WALL,
+          image     = resources.images.basic_wall
+        }
       end
       x = x + 1
     end
@@ -127,6 +141,25 @@ function Grid:to_string()
     str = str .. "\n"
   end
   return str
+end
+
+function Grid:to_canvas()
+  local canvas = love.graphics.newCanvas(self.size.x * 50, self.size.y * 50)
+  for y = 0, self.size.y - 1 do
+    for x = 0, self.size.x - 1 do
+      local square = self:get(x + 1, y + 1)
+      if square.occupied then
+        canvas:renderTo(function()
+          love.graphics.draw(square.occupant.image, x * 50, y * 50, 0, 5)
+        end)
+      else
+        canvas:renderTo(function()
+          love.graphics.draw(square.image, x * 50, y * 50, 0, 5)
+        end)
+      end
+    end
+  end
+  return canvas
 end
 
 local Menu = Object:new {
