@@ -70,7 +70,16 @@ function move_all(grid, direction)
   end
 end
 
+exports = {
+	move      = move,
+  move_all  = move_all,
+  Direction = Direction
+}
 
+return exports
+  
+  
+  
   
   
   
