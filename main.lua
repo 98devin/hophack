@@ -7,8 +7,7 @@ objects = require 'objects'
 
 function love.load()
 	test_level = objects.Grid.from_string(
-[[
-##########
+[[##########
 #        #
 # b      #
 #        #
@@ -17,8 +16,7 @@ function love.load()
 #        #
 #    b   #
 #        #
-##########
-]])
+##########]])
   input = {}
 end
 

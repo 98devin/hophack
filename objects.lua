@@ -48,7 +48,7 @@ local Grid = Object:new {
     y = 10
   },
   squares = nil, -- will be initialized in Grid:new
-  blocks  = nil -- same
+  blocks  = nil  -- same
 }
 
 function Grid:new(o)
@@ -72,7 +72,8 @@ function Grid.from_string(levelstr)
   local grid = Grid:new()
   local x = 1
   local y = 1
-  for line in levelstr:gmatch("(.[^\n])$") do
+  for line in levelstr:gmatch("([^\n]*)\n") do
+    print(line)
     assert(string.len(line) > 9)
     assert(string.len(line) == 10)
   	for char in line:gmatch(".") do
@@ -89,10 +90,18 @@ function Grid.from_string(levelstr)
         grid.squares[y][x] = Square:new{collision = Collision.WALL}
       end
       x = x + 1
+      assert(grid.squares[y][x] ~= nil)
+      assert(#(grid.squares[y]) ~= 0)
     end
   	y = y + 1
     x = 1
+    assert(grid.squares[y][x] ~= nil)
   end
+  assert(grid ~= nil)
+  assert(grid.squares ~= nil)
+  assert(grid.squares[1] ~= nil)
+  assert(#(grid.squares[1]) == 0)
+  assert(grid.squares[1][1] ~= nil)
   return grid
 end
 

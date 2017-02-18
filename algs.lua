@@ -38,6 +38,7 @@ function move(grid, block, direction)
   end
 end
 
+
 function collides(square, direction)
   if direction == Direction.UP then
     return square.collision.down
@@ -54,7 +55,7 @@ end
 function move_all(grid, direction)
   function sorting_function(direction)
   	if direction == Direction.UP then
-    	return (function(a, b) return a.position.y < b.position.y end)
+      return (function(a, b) return a.position.y < b.position.y end)
     elseif direction == Direction.DOWN then
       return (function(a, b) return a.position.y > b.position.y end)
     elseif direction == Direction.LEFT then
