@@ -42,6 +42,15 @@ local Square = Object:new {
 }
 
 
+local Block = Object:new {
+  collision = Collision.WALL,
+  position = {
+    x = nil,
+    y = nil
+  }
+}
+
+
 local Grid = Object:new {
   size = {
     x = 10,
@@ -72,11 +81,13 @@ function Grid.from_string(levelstr)
   local grid = Grid:new()
   local x = 1
   local y = 1
-  for line in levelstr:gmatch("([^\n]*)\n") do
-    print(line)
-    assert(string.len(line) > 9)
-    assert(string.len(line) == 10)
+  for line in (levelstr .. "\n"):gmatch("([^\n]*)\n") do
+    --print(line)
+    --assert(string.len(line) > 9)
+    --print(string.len(line))
+    --assert(string.len(line) == 10)
   	for char in line:gmatch(".") do
+      --print(char, x, y)
       if char == " " then
       	grid.squares[y][x] = Square:new{collision = Collision.EMPTY}
       elseif char == "b" then
@@ -86,29 +97,29 @@ function Grid.from_string(levelstr)
         grid.squares[y][x] = Square:new {
           collision=Collision.EMPTY, occupied=true, occupant=block
         }
+        table.insert(grid.blocks, block)
       elseif char == "#" then   
         grid.squares[y][x] = Square:new{collision = Collision.WALL}
       end
+      --assert(grid.squares[y][x] ~= nil)
+      --assert(#(grid.squares[y]) ~= 0)
       x = x + 1
-      assert(grid.squares[y][x] ~= nil)
-      assert(#(grid.squares[y]) ~= 0)
     end
+    --assert(grid.squares[y][x - 1] ~= nil)
   	y = y + 1
     x = 1
-    assert(grid.squares[y][x] ~= nil)
   end
-  assert(grid ~= nil)
-  assert(grid.squares ~= nil)
-  assert(grid.squares[1] ~= nil)
-  assert(#(grid.squares[1]) == 0)
-  assert(grid.squares[1][1] ~= nil)
+  --assert(grid ~= nil)
+  --assert(grid.squares ~= nil)
+  --assert(grid.squares[1] ~= nil)
+  --assert(grid.squares[1][1] ~= nil)
   return grid
 end
 
 function Grid:to_string()
   local str = ""
-  for x = 1, self.size.x do
-    for y = 1, self.size.y do
+  for y = 1, self.size.y do
+    for x = 1, self.size.x do
       local square = self:get(x, y)
       if not square.occupied then
         if square.collision == Collision.WALL then
@@ -124,14 +135,6 @@ function Grid:to_string()
   end
   return str
 end
-
-local Block = Object:new {
-  collision = Collision.WALL,
-  position = {
-    x = nil,
-    y = nil
-  }
-}
 
 exports = {
   Object    = Object,

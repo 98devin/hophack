@@ -10,7 +10,7 @@ local Direction = {
 
 
 function move(grid, block, direction)
-	local init_x, init_y = block.position.x, block.position.y
+  local init_x, init_y = block.position.x, block.position.y
   local init_square = grid:get(init_x, init_y)
   local new_x, new_y
   if direction == Direction.UP then

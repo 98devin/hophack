@@ -10,17 +10,20 @@ function love.load()
 [[##########
 #        #
 # b      #
-#        #
-#        #
-#        #
-#        #
+#   #    #
+#   ###  #
+#  ###   #
+#    #   #
 #    b   #
 #        #
 ##########]])
   input = {}
+  main_font = love.graphics.newFont("/resources/fonts/Inconsolata.otf", 20)
+  love.graphics.setFont(main_font)
 end
 
-function love.keyPressed(key, isRepeat)
+function love.keypressed(key, scancode, isRepeat)
+  love.graphics.print(key, 0, 0)
   if not isRepeat then
     if key == 'up' then
       table.insert(input, Direction.UP)
