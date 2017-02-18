@@ -1,13 +1,6 @@
 
 objects = require 'objects'
-
-local Direction = {
-	UP = {},
-  DOWN = {},
-  LEFT = {},
-  RIGHT = {}
-}
-
+local Direction = objects.Direction
 
 function move(grid, block, direction)
   local init_x, init_y = block.position.x, block.position.y
@@ -73,8 +66,7 @@ end
 
 exports = {
 	move      = move,
-  move_all  = move_all,
-  Direction = Direction
+  move_all  = move_all
 }
 
 return exports

@@ -1,11 +1,13 @@
 
 algs = require 'algs'
-local Direction = algs.Direction
+objs = require 'objects'
+local Direction = objs.Direction
 
 objects = require 'objects'
 
 test_level = objects.Grid.from_string(
-[[##########
+[[
+##########
 #        #
 # b      #
 #        #

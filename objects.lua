@@ -14,9 +14,9 @@ end
 
 -- Collision represents the solidity of a grid square
 local Collision = Object:new {
-  up = false,    -- whether collision is enabled from above
-  down = false,  -- etc.
-  left = false,  -- etc.
+  up = false,      -- whether collision is enabled from above
+  down = false,    -- etc.
+  left = false,    -- etc.
   right = false
 }
 
@@ -32,6 +32,13 @@ Collision.WALL = Collision:new {
 -- same for EMPTY spaces
 Collision.EMPTY = Collision:new{}
 
+-- enum of possible directions
+local Direction = {
+	UP    = {},
+  DOWN  = {},
+  LEFT  = {},
+  RIGHT = {}
+}
 
 -- Object representing a grid square.
 -- the default collision is empty.
@@ -41,15 +48,13 @@ local Square = Object:new {
   occupant = nil -- should contain a Block if occupied = true
 }
 
-
 local Block = Object:new {
-  collision = Collision.WALL,
+	collision = Collision.WALL,
   position = {
     x = nil,
     y = nil
   }
 }
-
 
 local Grid = Object:new {
   size = {
@@ -82,12 +87,7 @@ function Grid.from_string(levelstr)
   local x = 1
   local y = 1
   for line in (levelstr .. "\n"):gmatch("([^\n]*)\n") do
-    --print(line)
-    --assert(string.len(line) > 9)
-    --print(string.len(line))
-    --assert(string.len(line) == 10)
   	for char in line:gmatch(".") do
-      --print(char, x, y)
       if char == " " then
       	grid.squares[y][x] = Square:new{collision = Collision.EMPTY}
       elseif char == "b" then
@@ -101,18 +101,11 @@ function Grid.from_string(levelstr)
       elseif char == "#" then   
         grid.squares[y][x] = Square:new{collision = Collision.WALL}
       end
-      --assert(grid.squares[y][x] ~= nil)
-      --assert(#(grid.squares[y]) ~= 0)
       x = x + 1
     end
-    --assert(grid.squares[y][x - 1] ~= nil)
   	y = y + 1
     x = 1
   end
-  --assert(grid ~= nil)
-  --assert(grid.squares ~= nil)
-  --assert(grid.squares[1] ~= nil)
-  --assert(grid.squares[1][1] ~= nil)
   return grid
 end
 
@@ -120,7 +113,7 @@ function Grid:to_string()
   local str = ""
   for y = 1, self.size.y do
     for x = 1, self.size.x do
-      local square = self:get(x, y)
+    	local square = self:get(x, y)
       if not square.occupied then
         if square.collision == Collision.WALL then
           str = str .. "#"
@@ -136,26 +129,61 @@ function Grid:to_string()
   return str
 end
 
+local Menu = Object:new {
+	items = {},
+  selected_item = 1
+}
+
+function Menu:to_string()
+  local str = ""
+  for item_no, menu_item in ipairs(self.items) do
+    if item_no == self.selected_item then
+      str = str .. " * "
+    else
+      str = str .. "   "
+    end
+    str = str .. menu_item.name .. "\n"
+  end
+  return str
+end
+
+function Menu:change_selection(direction)
+  
+  if direction == Direction.UP then
+    self.selected_item = self.selected_item - 1
+  elseif direction == Direction.DOWN then
+    self.selected_item = self.selected_item + 1
+  end
+  
+  if self.selected_item < 1 then
+    self.selected_item = #self.items
+  elseif self.selected_item > #self.items then
+    self.selected_item = 1
+  end
+
+end
+
+function Menu:activate_selection()
+  love.graphics.print('!!!', 50, 50)
+  self.items[self.selected_item].func()
+end
+
+
+local MenuItem = Object:new {
+  name = "",
+  func = nil, -- function which will be called when the menu item is chosen
+}
+
 exports = {
   Object    = Object,
-  Collision = Collision,
+	Collision = Collision,
   Square    = Square,
   Grid      = Grid,
-  Block     = Block
+  Block     = Block,
+  MenuItem  = MenuItem,
+  Menu      = Menu,
+  Direction = Direction
 }
 
 return exports
-
-
-
-
-
-
-
-
-
-
-
-
-
 
