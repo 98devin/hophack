@@ -164,7 +164,6 @@ function Menu:change_selection(direction)
 end
 
 function Menu:activate_selection()
-  love.graphics.print('!!!', 50, 50)
   self.items[self.selected_item].func()
 end
 
