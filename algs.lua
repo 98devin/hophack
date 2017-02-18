@@ -65,9 +65,20 @@ function move_all(grid, direction)
   end
 end
 
+function has_won(grid)
+  for _, block in ipairs(grid.blocks) do
+    local square = grid:get(block.position.x, block.position.y)
+    if not square.is_destination then
+      return false
+    end
+  end
+  return true
+end
+
 exports = {
 	move      = move,
-  move_all  = move_all
+  move_all  = move_all,
+  has_won   = has_won
 }
 
 return exports

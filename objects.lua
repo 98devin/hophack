@@ -45,15 +45,16 @@ local Direction = {
 -- Object representing a grid square.
 -- the default collision is empty.
 local Square = Object:new {
-  collision = Collision.EMPTY,
-  occupied = false,
-  image    = resources.images.basic_floor,
-  occupant = nil -- should contain a Block if occupied = true
+  collision   = Collision.EMPTY,
+  occupied    = false,
+  is_destination = false,
+  image       = resources.images.squares.basic_floor,
+  occupant    = nil -- should contain a Block if occupied = true
 }
 
 local Block = Object:new {
 	collision = Collision.WALL,
-  image     = resources.images.basic_block,
+  image     = resources.images.blocks.basic,
   position = {
     x = nil,
     y = nil
@@ -95,16 +96,16 @@ function Grid.from_string(levelstr)
       if char == " " then
       	grid.squares[y][x] = Square:new {
           collision = Collision.EMPTY,
-          image     = resources.images.basic_floor
+          image     = resources.images.squares.basic_floor
         }
       elseif char == "b" then
         local block = Block:new {
         	position = {x = x, y = y},
-          image    = resources.images.basic_block
+          image    = resources.images.blocks.basic
         }
         grid.squares[y][x] = Square:new {
           collision = Collision.EMPTY,
-          image     = resources.images.basic_floor,
+          image     = resources.images.squares.basic_floor,
           occupied  = true,
           occupant  = block
         }
@@ -112,7 +113,13 @@ function Grid.from_string(levelstr)
       elseif char == "#" then   
         grid.squares[y][x] = Square:new {
           collision = Collision.WALL,
-          image     = resources.images.basic_wall
+          image     = resources.images.squares.basic_wall
+        }
+      elseif char == "x" then
+        grid.squares[y][x] = Square:new {
+        	collision = Collision.EMPTY,
+          is_destination = true,
+          image = resources.images.squares.destination_floor
         }
       end
       x = x + 1
@@ -163,12 +170,13 @@ function Grid:to_canvas()
 end
 
 local Menu = Object:new {
+  name  = "",
 	items = {},
   selected_item = 1
 }
 
 function Menu:to_string()
-  local str = ""
+  local str = self.name .. "\n"
   for item_no, menu_item in ipairs(self.items) do
     if item_no == self.selected_item then
       str = str .. " * "
@@ -218,4 +226,3 @@ exports = {
 }
 
 return exports
-

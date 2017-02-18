@@ -12,8 +12,9 @@ local GameState = {
 }
 
 function love.load()
-  -- set window mode
+  -- set graphics modes
   assert(love.window.setMode(500, 500))
+  love.graphics.setDefaultFilter('linear', 'nearest')
 
   -- initialize levels
   selected_level_no = 1
@@ -21,12 +22,12 @@ function love.load()
 	levels = {
 [[
 ##########
-#        #
+#       x#
 # b      #
-#   #    #
+#   #x   #
 #   ###  #
-#  ###   #
-#    #   #
+#  ###x  #
+#   x#   #
 #    b   #
 #        #
 ##########]],
@@ -38,9 +39,10 @@ function love.load()
   love.graphics.setFont(resources.fonts.main_font)
 
   -- initialize things relating to the menu
+
   game_state = GameState.IN_MENU
-  menu = objects.Menu:new {
-    selected_item = 1,
+  main_menu = objects.Menu:new {
+    name = "Main Menu:",
   	items = {
 			objects.MenuItem:new {
     		name="Play", func=function()
@@ -53,6 +55,55 @@ function love.load()
   		}
     }
 	}
+  pause_menu = objects.Menu:new {
+    name = "Game paused.",
+  	items = {
+      objects.MenuItem:new {
+    		name="Continue", func=function()
+        	game_state = GameState.IN_GAME
+      	end
+      },
+    	objects.MenuItem:new {
+    		name="Exit to Main Menu", func=function()
+          current_menu = main_menu
+          current_menu.selected_item = 1
+        end
+      },
+      objects.MenuItem:new {
+        name="Restart level", func=function()
+        	current_level_grid = objects.Grid.from_string(levels[selected_level_no])
+          game_state = GameState.IN_GAME
+        end
+      }
+    }
+  }
+  clear_menu = objects.Menu:new {
+    name = "Level Cleared!",
+    items = {
+    	objects.MenuItem:new {
+      	name="Advance to next level", func=function()
+          selected_level_no = selected_level_no + 1
+          current_level_grid = objects.Grid.from_string(levels[selected_level_no])
+        	game_state = GameState.IN_GAME
+        end
+      },
+      objects.MenuItem:new {
+        name="Exit to Main Menu", func=function()
+          current_menu = main_menu
+          current_menu.selected_item = 1
+        end
+      },
+      objects.MenuItem:new {
+        name="Restart level", func=function()
+          current_level_grid = objects.Grid.from_string(levels[selected_level_no])
+          game_state = GameState.IN_GAME
+        end
+      }
+    }
+  }
+
+  current_menu = main_menu -- start off at the main menu
+
 end
 
 function love.keypressed(key, scancode, isRepeat)
@@ -67,15 +118,13 @@ function love.keypressed(key, scancode, isRepeat)
     elseif key == 'right' then
       table.insert(input, Direction.RIGHT)
     elseif key == 'escape' then
-      -- maybe we want escape to close a pause menu?
-      --if game_state == GameState.IN_MENU then
-      --  game_state = GameState.IN_GAME
     	if game_state == GameState.IN_GAME then
+        current_menu = pause_menu
         game_state = GameState.IN_MENU
       end
     elseif key == 'return' then
 			if game_state == GameState.IN_MENU then
-        menu:activate_selection()
+        current_menu:activate_selection()
       end
     end
   end
@@ -85,10 +134,15 @@ function love.update()
   if game_state == GameState.IN_GAME then
     for _, direction in ipairs(input) do
       algs.move_all(current_level_grid, direction)
+      if algs.has_won(current_level_grid) then
+        game_state = GameState.IN_MENU
+        current_menu = clear_menu
+        current_menu.selected_item = 1
+      end
     end
   elseif game_state == GameState.IN_MENU then
     for _, direction in ipairs(input) do
-      menu:change_selection(direction)
+      current_menu:change_selection(direction)
     end
   end
   input = {}
@@ -100,7 +154,7 @@ function love.draw()
   	--love.graphics.print(current_level_grid:to_string())
     love.graphics.draw(current_level_grid:to_canvas(), 0, 0)
   elseif game_state == GameState.IN_MENU then
-  	love.graphics.print(menu:to_string())
+  	love.graphics.print(current_menu:to_string())
   end
 end
 

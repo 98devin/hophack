@@ -3,9 +3,14 @@ module = {}
 
 -- initialize images
 module.images = {
-  basic_block = love.graphics.newImage("/resources/images/block/basic.png"),
-  basic_wall  = love.graphics.newImage("/resources/images/walls/basic.png"),
-  basic_floor = love.graphics.newImage("/resources/images/walls/basic-floor.png")
+  blocks = {
+    basic = love.graphics.newImage("/resources/images/blocks/basic.png"),
+  },
+  squares = {
+    basic_wall  = love.graphics.newImage("/resources/images/squares/basic-wall.png"),
+    basic_floor = love.graphics.newImage("/resources/images/squares/basic-floor.png"),
+    destination_floor = love.graphics.newImage("/resources/images/squares/destination-floor.png")
+  }
 }
 
 -- initialize fonts
