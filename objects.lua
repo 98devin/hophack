@@ -42,12 +42,19 @@ local Direction = {
   RIGHT = {}
 }
 
+local Color = {
+ 	RED = {},
+  BLUE = {},
+  YELLOW = {},
+  GREEN = {}
+}
+
 -- Object representing a grid square.
 -- the default collision is empty.
 local Square = Object:new {
   collision   = Collision.EMPTY,
   occupied    = false,
-  is_destination = false,
+  destination = nil, -- { color = ... }
   image       = resources.images.squares.basic_floor,
   occupant    = nil -- should contain a Block if occupied = true
 }
@@ -58,7 +65,8 @@ local Block = Object:new {
   position = {
     x = nil,
     y = nil
-  }
+  },
+  color = nil
 }
 
 local Grid = Object:new {
@@ -98,10 +106,11 @@ function Grid.from_string(levelstr)
           collision = Collision.EMPTY,
           image     = resources.images.squares.basic_floor
         }
-      elseif char == "b" then
+      elseif char:match("[a-d]") then
         local block = Block:new {
         	position = {x = x, y = y},
-          image    = resources.images.blocks.basic
+          image    = resources.images.blocks.basic,
+          color = charToColor(char)
         }
         grid.squares[y][x] = Square:new {
           collision = Collision.EMPTY,
@@ -115,10 +124,10 @@ function Grid.from_string(levelstr)
           collision = Collision.WALL,
           image     = resources.images.squares.basic_wall
         }
-      elseif char == "x" then
+      elseif char:match("[A-D]") then
         grid.squares[y][x] = Square:new {
         	collision = Collision.EMPTY,
-          is_destination = true,
+          destination = {color = charToColor(char)},
           image = resources.images.squares.destination_floor
         }
       end
@@ -214,6 +223,22 @@ local MenuItem = Object:new {
   func = nil, -- function which will be called when the menu item is chosen
 }
 
+local Desitnation = Object:new {
+  color = nil
+}
+
+function charToColor(c)
+  local c = string.lower(c)
+  if c == 'a' then
+    return Color.RED
+  elseif c == 'b' then
+    return Color.BLUE
+  elseif c == 'c' then
+    return Color.GREEN
+  elseif c == 'd' then
+    return Color.YELLOW
+  end
+end
 exports = {
   Object    = Object,
 	Collision = Collision,

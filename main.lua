@@ -22,15 +22,37 @@ function love.load()
 	levels = {
 [[
 ##########
-#       x#
-# b      #
-#   #x   #
+#       A#
+# a      #
+#   #B   #
 #   ###  #
-#  ###x  #
-#   x#   #
+#  ###B  #
+#   B#   #
 #    b   #
 #        #
 ##########]],
+[[
+##########
+#  b     #
+#B  #B#  #
+#   ##  b#
+#B  ###  #
+#B b #   #
+#B       #
+#        #
+#        #
+##########]],
+[[
+##########
+#     ##B#
+# b #### #
+#    B   #
+#   ######
+#        #
+#   B#   #
+#    b   #
+#        #
+##########]]
   }
   -- setup input table
   input = {}
@@ -106,9 +128,9 @@ function love.load()
 
 end
 
-function love.keypressed(key, scancode, isRepeat)
+function love.keypressed(key)
   love.graphics.print(key, 0, 0)
-  if not isRepeat then
+  --if not isRepeat then
     if key == 'up' then
       table.insert(input, Direction.UP)
     elseif key == 'down' then
@@ -127,7 +149,7 @@ function love.keypressed(key, scancode, isRepeat)
         current_menu:activate_selection()
       end
     end
-  end
+  --end
 end
 
 function love.update()

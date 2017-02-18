@@ -68,12 +68,16 @@ end
 function has_won(grid)
   for _, block in ipairs(grid.blocks) do
     local square = grid:get(block.position.x, block.position.y)
-    if not square.is_destination then
+    if square.destination == nil then
+      return false
+    elseif square.destination.color ~= block.color then
       return false
     end
   end
   return true
 end
+
+
 
 exports = {
 	move      = move,
