@@ -87,8 +87,6 @@ function has_won(grid)
   return true
 end
 
-
-
 exports = {
 	move      = move,
   move_all  = move_all,
