@@ -30,13 +30,13 @@ function love.load()
 	handfuls = {
   	objects.Handful:new {
     	name = "The First Five",
+      end_menu = generate_end_menu("Congratulations!\n\n"),
       levels = {
       	objects.Level:new {
         	name = "Level 1",
           size = {x = 10, y = 9},
           levelstr =[[
 ##########
-<<<<<<< HEAD
 #        #
 #        #
 #        #
@@ -44,18 +44,7 @@ function love.load()
 #        #
 #        #
 #        #
-########]]
-=======
-#T      t#
-#        #
-#   A#   #
-#  ###A  #
-#  B###  #
-#a  #B  b#
-#        #
-#t      T#
 ##########]]
->>>>>>> 0f125858b32040273b02db9983c1638a0f4694a8
         },
         objects.Level:new {
         	name = "Level 2",
@@ -119,11 +108,11 @@ function love.load()
         }
         
       },
-      end_menu = generate_end_menu("Congratulations!\n\n"),
 
     },
     objects.Handful:new{
       name = "The Second Five",
+      end_menu = generate_end_menu("Congratulations!\n\n"),
       levels = {
         objects.Level:new {
           name = "Level 6",
@@ -199,6 +188,7 @@ function love.load()
 #b       #
 ##########]]
         }
+
 
       }
     }
@@ -366,6 +356,7 @@ function love.update(dt)
         game_state = GameState.IN_MENU
         time_elapsed = 0
         moves_made = 0
+        
         if selected_level_no == #(handfuls[selected_handful_no].levels) then
           current_menu = handfuls[selected_handful_no].end_menu
           current_menu.selected_item = 1
