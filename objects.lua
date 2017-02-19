@@ -104,17 +104,17 @@ function Grid.from_string(levelstr)
       if char == " " then
       	grid.squares[y][x] = Square:new {
           collision = Collision.EMPTY,
-          image     = resources.images.squares.basic_floor
+          image     = resources.images.squares.basic_empty
         }
-      elseif char:match("[a-d]") then
+      elseif char:match("[a-dx]") then
         local block = Block:new {
         	position = {x = x, y = y},
           image    = resources.images.blocks.basic,
-          color = charToColor(char)
+          color = char_to_color(char)
         }
         grid.squares[y][x] = Square:new {
           collision = Collision.EMPTY,
-          image     = resources.images.squares.basic_floor,
+          image     = resources.images.squares.basic_empty,
           occupied  = true,
           occupant  = block
         }
@@ -124,11 +124,11 @@ function Grid.from_string(levelstr)
           collision = Collision.WALL,
           image     = resources.images.squares.basic_wall
         }
-      elseif char:match("[A-D]") then
+      elseif char:match("[A-DX]") then
         grid.squares[y][x] = Square:new {
         	collision = Collision.EMPTY,
-          destination = {color = charToColor(char)},
-          image = resources.images.squares.destination_floor
+          destination = {color = char_to_color(char)},
+          image = resources.images.squares.basic_empty,
         }
       end
       x = x + 1
@@ -164,13 +164,24 @@ function Grid:to_canvas()
   for y = 0, self.size.y - 1 do
     for x = 0, self.size.x - 1 do
       local square = self:get(x + 1, y + 1)
+      local xpos, ypos = x * 50, y * 50
       if square.occupied then
         canvas:renderTo(function()
-          love.graphics.draw(square.occupant.image, x * 50, y * 50, 0, 5)
+          love.graphics.draw(square.occupant.image, xpos, ypos, 0, 5)
+          if square.occupant.color then
+            love.graphics.draw(
+              resources.images.blocks.modifiers.color[color_to_string(square.occupant.color)], xpos, ypos, 0, 5
+            )
+          end
         end)
       else
         canvas:renderTo(function()
-          love.graphics.draw(square.image, x * 50, y * 50, 0, 5)
+          love.graphics.draw(square.image, xpos, ypos, 0, 5)
+          if square.destination then
+            love.graphics.draw(
+              resources.images.squares.modifiers.destination[color_to_string(square.destination.color)], xpos, ypos, 0, 5
+            )
+          end
         end)
       end
     end
@@ -227,7 +238,7 @@ local Desitnation = Object:new {
   color = nil
 }
 
-function charToColor(c)
+function char_to_color(c)
   local c = string.lower(c)
   if c == 'a' then
     return Color.RED
@@ -239,6 +250,23 @@ function charToColor(c)
     return Color.YELLOW
   end
 end
+
+function color_to_string(c)
+  if c == Color.RED then
+    return 'red'
+  elseif c == Color.BLUE then
+    return 'blue'
+  elseif c == Color.GREEN then
+    return 'green'
+  elseif c == Color.YELLOW then
+    return 'yellow'
+  elseif c == nil then
+    return 'neutral'
+  end
+end
+
+
+
 exports = {
   Object    = Object,
 	Collision = Collision,
