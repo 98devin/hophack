@@ -10,6 +10,12 @@ module.images = {
         green  = love.graphics.newImage("/resources/images/blocks/modifiers/color-green.png"),
         red    = love.graphics.newImage("/resources/images/blocks/modifiers/color-red.png"),
         yellow = love.graphics.newImage("/resources/images/blocks/modifiers/color-yellow.png")
+      },
+      movement = {
+        up     = love.graphics.newImage("/resources/images/blocks/modifiers/movement-up.png"),
+        down   = love.graphics.newImage("/resources/images/blocks/modifiers/movement-down.png"),
+        left   = love.graphics.newImage("/resources/images/blocks/modifiers/movement-left.png"),
+        right  = love.graphics.newImage("/resources/images/blocks/modifiers/movement-right.png")
       }
     },
     basic = love.graphics.newImage("/resources/images/blocks/basic.png"),
@@ -22,6 +28,12 @@ module.images = {
         green   = love.graphics.newImage("/resources/images/squares/modifiers/destination-green.png"),
         red     = love.graphics.newImage("/resources/images/squares/modifiers/destination-red.png"),
         yellow  = love.graphics.newImage("/resources/images/squares/modifiers/destination-yellow.png")
+      },
+      collision = {
+        up      = love.graphics.newImage("/resources/images/squares/modifiers/collision-up.png"),
+        down    = love.graphics.newImage("/resources/images/squares/modifiers/collision-down.png"),
+        left    = love.graphics.newImage("/resources/images/squares/modifiers/collision-left.png"),
+        right   = love.graphics.newImage("/resources/images/squares/modifiers/collision-right.png")
       }
     },
     basic_wall  = love.graphics.newImage("/resources/images/squares/basic-wall.png"),

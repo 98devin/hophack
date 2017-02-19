@@ -170,25 +170,38 @@ function Grid:to_canvas()
     for x = 0, self.size.x - 1 do
       local square = self:get(x + 1, y + 1)
       local xpos, ypos = x * 50, y * 50
-      if square.occupied then
-        canvas:renderTo(function()
+      canvas:renderTo(function()
+        if square.occupied then
           love.graphics.draw(square.occupant.image, xpos, ypos, 0, 5)
           if square.occupant.color then
             love.graphics.draw(
               resources.images.blocks.modifiers.color[color_to_string(square.occupant.color)], xpos, ypos, 0, 5
             )
           end
-        end)
-      else
-        canvas:renderTo(function()
+        else
           love.graphics.draw(square.image, xpos, ypos, 0, 5)
           if square.destination then
             love.graphics.draw(
               resources.images.squares.modifiers.destination[color_to_string(square.destination.color)], xpos, ypos, 0, 5
             )
           end
-        end)
-      end
+        end
+        if square.collision ~= Collision.WALL and
+           square.collision ~= Collision.EMPTY then
+          if not square.collision.up then
+            love.graphics.draw(resources.images.squares.modifiers.collision.up, xpos, ypos, 0, 5)
+          end
+          if not square.collision.down then
+            love.graphics.draw(resources.images.squares.modifiers.collision.down, xpos, ypos, 0, 5)
+          end
+          if not square.collision.left then
+            love.graphics.draw(resources.images.squares.modifiers.collision.left, xpos, ypos, 0, 5)
+          end
+          if not square.collision.right then
+            love.graphics.draw(resources.images.squares.modifiers.collision.right, xpos, ypos, 0, 5)
+          end
+        end
+      end)
     end
   end
   return canvas

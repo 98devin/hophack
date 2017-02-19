@@ -86,6 +86,7 @@ function has_won(grid)
   end
   return true
 end
+
 function char_to_collision(c)
   local collision
   if c == '0' then
