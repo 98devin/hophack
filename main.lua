@@ -86,6 +86,7 @@ function love.load()
   	items = {
 			objects.MenuItem:new {
     		name="Play", func=function()
+          selected_level_no = 1
         	current_menu = selectmode_menu
           current_menu.selected_item = 1
         end
@@ -279,7 +280,7 @@ function love.draw()
   end
   
   if game_mode == GameMode.TIME then
-    love.graphics.print(string.format("TIME: %.4f", time_elapsed), 0, SCREEN_HEIGHT - 20)
+    love.graphics.print(string.format("TIME: %.2f", time_elapsed), 0, SCREEN_HEIGHT - 20)
   elseif game_mode == GameMode.MOVES then
     love.graphics.print(string.format("MOVES MADE: %d", moves_made), 0, SCREEN_HEIGHT - 20)
   end
