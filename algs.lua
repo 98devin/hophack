@@ -90,56 +90,56 @@ end
 function char_to_collision(c)
   local collision
   if c == '0' then
-    collision = Collision:new{
+    collision = objects.Collision:new{
       up = true,
       right = true,
       left = true
     }
   elseif c == '1' then
-    collision = Collision:new{
+    collision = objects.Collision:new{
       up = true,
       right = true
     }
   elseif c == '2' then
-    collision = Collision:new{ 
+    collision = objects.Collision:new{ 
       up = true,
       down = true,
       right = true
     }
   elseif c == '3' then
-    collision = Collision:new{
+    collision = objects.Collision:new{
       right = true,
       down = true
     }
   elseif c == '4' then
-    collision = Collision:new{
+    collision = objects.Collision:new{
       right = true,
       down = true,
       left = true
     }
   elseif c == '5' then
-    collision = Collision:new{
+    collision = objects.Collision:new{
       left = true,
       down = true
     }
   elseif c == '6' then
-    collision = Collision:new{
+    collision = objects.Collision:new{
       left = true,
       down = true,
       up = true
     }
   elseif c == '7' then
-    collision = Collision:new{
+    collision = objects.Collision:new{
       left = true,
       up = true
   	}
   elseif c == '-' then
-    collision = Collision:new{
+    collision = objects.Collision:new{
       up = true,
       down = true
     }  
   elseif c == '|' then
-    collision = Collision:new{
+    collision = objects.Collision:new{
       left = true,
       right = true
     }

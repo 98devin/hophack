@@ -132,9 +132,9 @@ function Grid.from_string(levelstr)
         }
       elseif char:match("[%-%|0-7]") then
         grid.squares[y][x] = Square:new {
-          collision = char_to_collision(char)
-        }
+          collision = char_to_collision(char),
           image = resources.images.squares.basic_empty
+        }
       end
       x = x + 1
     end
