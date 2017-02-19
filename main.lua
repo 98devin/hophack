@@ -510,6 +510,9 @@ function generate_end_menu(name)
         name="Transcend", func=function()
           selected_handful_no = selected_handful_no + 1
           selected_level_no = 1 
+          if selected_handful_no == #handfuls + 1 then
+            love.event.quit(0)
+          end
           current_level_grid = objects.Grid.from_Level(handfuls[selected_handful_no].levels[selected_level_no])
           game_state = GameState.IN_GAME
         end
