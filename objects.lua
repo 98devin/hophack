@@ -265,8 +265,6 @@ function color_to_string(c)
   end
 end
 
-
-
 exports = {
   Object    = Object,
 	Collision = Collision,

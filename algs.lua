@@ -29,7 +29,9 @@ function move(grid, block, direction)
     -- update block's position
     block.position.x = new_x
     block.position.y = new_y
+    return true
   end
+  return false
 end
 
 
@@ -59,10 +61,16 @@ function move_all(grid, direction)
     end
   end
   
+  local moved_any = false
   table.sort(grid.blocks, sorting_function(direction))
 	for _, block in ipairs(grid.blocks) do
-    move(grid, block, direction)
+    local moved = move(grid, block, direction)
+    if moved then
+      moved_any = true
+    end
   end
+  
+  return moved_any
 end
 
 function has_won(grid)
@@ -86,7 +94,6 @@ exports = {
 }
 
 return exports
-  
   
   
   

@@ -11,9 +11,16 @@ local GameState = {
   IN_GAME = {},
 }
 
+local GameMode = {
+  TIME = {},
+  MOVES = {},
+  NORMAL = {}
+}
 function love.load()
   -- set graphics modes
-  assert(love.window.setMode(500, 500))
+  SCREEN_WIDTH = 500
+  SCREEN_HEIGHT = 500
+  assert(love.window.setMode(SCREEN_WIDTH, SCREEN_HEIGHT))
   love.graphics.setDefaultFilter('linear', 'nearest')
 
   -- initialize levels
@@ -52,6 +59,17 @@ function love.load()
 #   B#   #
 #    b   #
 #        #
+##########]],
+[[
+##########
+#       B#
+#x  ###  #
+#    #  A#
+#a       #
+#   #   D#
+#d  ##   #
+#    #  X#
+#b       #
 ##########]]
   }
   -- setup input table
@@ -61,15 +79,15 @@ function love.load()
   love.graphics.setFont(resources.fonts.main_font)
 
   -- initialize things relating to the menu
-
   game_state = GameState.IN_MENU
+  game_mode = NORMAL
   main_menu = objects.Menu:new {
     name = "Main Menu:",
   	items = {
 			objects.MenuItem:new {
     		name="Play", func=function()
-        	current_level_grid = objects.Grid.from_string(levels[selected_level_no])
-          game_state = GameState.IN_GAME
+        	current_menu = selectmode_menu
+          current_menu.selected_item = 1
         end
   		},
   		objects.MenuItem:new {
@@ -77,6 +95,38 @@ function love.load()
   		}
     }
 	}
+  selectmode_menu = objects.Menu:new {
+    name = "Select game mode",
+    items = {
+      objects.MenuItem:new {
+        name = "Normal", func = function()
+          game_mode = GameMode.NORMAL
+          current_level_grid = objects.Grid.from_string(levels[selected_level_no])
+          game_state = GameState.IN_GAME
+          --time_elapsed = 0
+          --moves_made = 0
+        end
+      },
+      objects.MenuItem:new {
+        name = "Time Attack", func = function()
+          game_mode = GameMode.TIME
+          current_level_grid = objects.Grid.from_string(levels[selected_level_no])
+          game_state = GameState.IN_GAME
+          time_elapsed = 0
+          --moves_made = 0
+        end
+      },
+      objects.MenuItem:new {
+        name = "Move Challenge", func = function()
+          game_mode = GameMode.MOVES
+          current_level_grid = objects.Grid.from_string(levels[selected_level_no])
+          game_state = GameState.IN_GAME
+          --time_elapsed = 0
+          moves_made = 0
+        end
+      }
+    }	
+  }
   pause_menu = objects.Menu:new {
     name = "Game paused.",
   	items = {
@@ -89,12 +139,15 @@ function love.load()
     		name="Exit to Main Menu", func=function()
           current_menu = main_menu
           current_menu.selected_item = 1
+          game_mode = GameMode.NORMAL
         end
       },
       objects.MenuItem:new {
         name="Restart level", func=function()
         	current_level_grid = objects.Grid.from_string(levels[selected_level_no])
           game_state = GameState.IN_GAME
+          time_elapsed = 0
+          moves_made = 0
         end
       }
     }
@@ -107,18 +160,23 @@ function love.load()
           selected_level_no = selected_level_no + 1
           current_level_grid = objects.Grid.from_string(levels[selected_level_no])
         	game_state = GameState.IN_GAME
+          time_elapsed = 0
+          moves_made = 0
         end
       },
       objects.MenuItem:new {
         name="Exit to Main Menu", func=function()
           current_menu = main_menu
           current_menu.selected_item = 1
+          game_mode = GameMode.NORMAL
         end
       },
       objects.MenuItem:new {
         name="Restart level", func=function()
           current_level_grid = objects.Grid.from_string(levels[selected_level_no])
           game_state = GameState.IN_GAME
+          time_elapsed = 0
+          moves_made = 0
         end
       }
     }
@@ -132,12 +190,15 @@ function love.load()
         	game_state = GameState.IN_GAME
         	selected_level_no = 1
         	current_level_grid = objects.Grid.from_string(levels[selected_level_no])
+          time_elapsed = 0
+          moves_made = 0
       	end
       },
       objects.MenuItem:new {
         name="Exit to Main Menu", func=function()
           current_menu = main_menu
           current_menu.selected_item = 1
+          game_mode = GameMode.NORMAL
         end
       },
       objects.MenuItem:new {
@@ -147,6 +208,12 @@ function love.load()
   }
 
   current_menu = main_menu -- start off at the main menu
+
+  -- relating to Timed Mode
+  time_elapsed = 0
+  
+  -- relating to Move Challenge mode
+  moves_made = 0
 
 end
 
@@ -174,10 +241,13 @@ function love.keypressed(key)
   --end
 end
 
-function love.update()
+function love.update(dt)
   if game_state == GameState.IN_GAME then
     for _, direction in ipairs(input) do
-      algs.move_all(current_level_grid, direction)
+      local moved = algs.move_all(current_level_grid, direction)
+      if moved then
+        moves_made = moves_made + 1
+      end
       if algs.has_won(current_level_grid) then
         game_state = GameState.IN_MENU
         if selected_level_no == #levels then
@@ -194,6 +264,9 @@ function love.update()
     end
   end
   input = {}
+  if game_state == GameState.IN_GAME then
+  	time_elapsed = time_elapsed + dt
+  end
 end
 
 function love.draw()
@@ -203,6 +276,12 @@ function love.draw()
     love.graphics.draw(current_level_grid:to_canvas(), 0, 0)
   elseif game_state == GameState.IN_MENU then
   	love.graphics.print(current_menu:to_string())
+  end
+  
+  if game_mode == GameMode.TIME then
+    love.graphics.print(string.format("TIME: %.4f", time_elapsed), 0, SCREEN_HEIGHT - 20)
+  elseif game_mode == GameMode.MOVES then
+    love.graphics.print(string.format("MOVES MADE: %d", moves_made), 0, SCREEN_HEIGHT - 20)
   end
 end
 
