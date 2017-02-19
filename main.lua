@@ -271,7 +271,7 @@ function love.load()
     end_menu = generate_end_menu("Congratulations! You've defeated quite a few handfuls of these"),
     levels = {
       objects.Level:new {
-          name = "",
+          name = "A hole in time",
           size = {x = 9, y = 10},
           levelstr = [[
 #########
@@ -290,13 +290,13 @@ function love.load()
         size = {x = 9, y = 9},
         levelstr = [[
 #########
-#x t#u x#
-# X # X #
+#a t#u b#
+# C # D #
 #  U#T  #
 #########
 #u  #  t#
-# X # X #
-#x U#T x#
+# B # A #
+#d U#T c#
 #########
 ]]
       }
@@ -539,10 +539,8 @@ function generate_end_menu(name)
           current_menu.selected_item = 1
           game_mode = GameMode.NORMAL
         end
-      }
-          
+      }   
     }
-
   }
   return end_menu
 end
