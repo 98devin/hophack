@@ -188,7 +188,7 @@ end
 function get_body(levels)
  body = ""
   for _, lvl in ipairs(levels) do
-    body = body .. string.format("%s ... %.2f seconds, %d moves\n", lvl.name, lvl.time, lvl.moves)
+    body = body .. string.format("%s - %.2f seconds, %d moves\n", lvl.name, lvl.time, lvl.moves)
   end
   return body
 end

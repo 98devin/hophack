@@ -24,7 +24,7 @@ function love.load()
 
   -- initialize levels
   selected_level_no = 1
-  seleceted_handful_no = 1
+  selected_handful_no = 1
   current_level_grid = nil
 	handfuls = {
   	objects.Handful:new {
@@ -32,7 +32,7 @@ function love.load()
       end_menu = generate_end_menu("Congratulations!\n\n"),
       levels = {
       	objects.Level:new {
-        	name = "Level 1",
+        	name = "Go on...",
           size = {x = 10, y = 9},
           levelstr =[[
 ##########
@@ -46,64 +46,61 @@ function love.load()
 ##########]]
         },
         objects.Level:new {
-        	name = "Level 2",
-          size = {x = 10, y = 10},
+        	name = "The Divide",
+          size = {x = 9, y = 9},
+          levelstr =[[
+#########
+#       #
+#       #
+#   #   #
+# x # X #
+#   #   #
+#       #
+#       #
+#########]]
+        },
+        objects.Level:new {
+        	name = "Coming Together",
+          size = {x = 10, y = 9},
           levelstr =[[
 ##########
+#   XX   #
+#        #
+#   ##   #
+# x ## x #
+#   ##   #
 #        #
 #        #
-# x #    #
-#   # X  #
-#   #    #
-#   #    #
-#   #    #
-#   #    #
 ##########]]
         },
         objects.Level:new {
-        	name = "Level 3",
-          size = {x = 10, y = 10},
-          levelstr =[[
-##########
-#     XX #
-#        #
-#   #    #
-# x # x  #
-#   #    #
-#        #
-#        #
-#        #
-##########]]
-        },
-        objects.Level:new {
-          name = "Level 4",
+          name = "Growing Apart",
         	size = {x = 10, y = 10},
           levelstr =[[
 ##########
 #        #
+#   xx   #
 #        #
-#        #
-# x###   #
-# x ##   #
+#  ####  #
 #   ##   #
 #   ##   #
-#  X##X  #
+#   ##   #
+# X ## X #
 ##########]]
         },
         objects.Level:new {
-          name = "Level 5",
-          size = {x = 10, y = 10},
+          name = "Three's a Crowd",
+          size = {x = 9, y = 9},
           levelstr =[[
-##########
-#        #
-# x    X #
-#   #    #
-# x #  X #
-#   #    #
-# x    X #
-#        #
-#        #
-##########]]
+#########
+#       #
+# x   X #
+#   #   #
+# x # X #
+#   #   #
+# x   X #
+#       #
+#########]]
         }
         
       },
@@ -115,51 +112,50 @@ function love.load()
       levels = {
         objects.Level:new {
           name = "Level 6",
-          size = {x = 10, y = 10},
+          size = {x = 9, y = 10},
+          levelstr = [[
+#########
+#   #   #
+#   #   #
+# a B   #
+#   #   #
+#   #   #
+# b A   #
+#   #   #
+#   #   #
+#########]]
+        },
+        objects.Level:new {
+          name = "Twins",
+          size = {x = 10, y = 9},
           levelstr = [[
 ##########
-#   ##  A#
-#   ##   #
-# a  B   #
-#   ##  B#
-#   ##   #
-# b  A   #
-#   ##   #
-#   ##   #
+#    # # #
+#a #   #X#
+#  # #   #
+##########
+#  # #   #
+#b #   #X#
+#    # # #
 ##########]]
         },
         objects.Level:new {
-          name = "Level 7",
-          size = {x = 10, y = 10},
-          levelstr = [[
-##########
-#        #
-#b      B#
-#        #
-##########
-##########
-#        #
-#b      X#
-#        #
-##########]]
-        },
-        objects.Level:new {
-          name = "Level 8",
+          name = "Multiple Choice",
           size = {x = 10, y = 10},
           levelstr = [[
 ##########
 #       A#
 # a      #
 #   #B   #
-#   ###  #
+#  B###  #
 #  ###B  #
 #   B#   #
-#    b   #
+# b      #
 #        #
 ##########]]
         },
         objects.Level:new {
-          name = "Level 9",
+          name = "Corridors",
           size = {x = 9, y = 9},
           levelstr = [[
 #########
@@ -173,7 +169,7 @@ function love.load()
 #########]]
         },
         objects.Level:new {
-          name = "Level 10",
+          name = "Tetris",
           size = {x = 10, y = 10},
           levelstr = [[
 ##########
@@ -190,9 +186,119 @@ function love.load()
 
 
       }
+    },
+    objects.Handful:new {
+      name = "The Third Five",
+      end_menu = generate_end_menu("Congratulations\n\n"),
+      levels = {
+        objects.Level:new {
+          name = "No Entry",
+          size = {x = 10, y = 10},
+          levelstr = [[
+##########
+#        #
+#        #
+##########
+####  ####
+# x  5 X #
+##########
+#        #
+#        #
+##########]]
+        },
+        objects.Level:new {
+          name = "One Way",
+          size = {x = 10, y = 9},
+          levelstr = [[
+##########
+#        #
+# X      #
+#        #
+#44440000#
+#        #
+# x      #
+#        #
+##########]]
+        },
+        objects.Level:new {
+          name = "",
+          size = {x = 9, y = 9},
+          levelstr = [[
+#########
+# a   b #
+#   #   #
+#       #
+#|||||||#
+#|||||||#
+#|||||||#
+#|B|||A|#
+#########]]
+        },
+        objects.Level:new {
+          name = "",
+          size = {x = 10, y = 10},
+          levelstr = [[
+##########
+#  522   #
+#  522   #
+#  522   #
+#  522   #
+#  422   #
+# x422   #
+###422   #
+# X 44   #
+##########]]
+        },
+        objects.Level:new {
+          name = "",
+          size = {x = 10, y = 10},
+          levelstr = [[
+##########
+#        #
+#        #
+#        #
+#        #
+#        #
+#        #
+#        #
+#        #
+##########]]
+        },
+      }
+    },
+    objects.Handful:new{
+    name = "The Final Four?",
+    end_menu = generate_end_menu("Congratulations! You've defeated quite a few handfuls of these"),
+    levels = {
+      objects.Level:new {
+          name = "",
+          size = {x = 9, y = 10},
+          levelstr = [[
+#########
+#   #   #
+# t # X #
+#   #   #
+#   #   #
+#   #   #
+#   #   #
+# x # t #
+#   #   #
+#########]]
+      },
+      objects.Level:new {
+        name = "",
+        size = {x = 10, y = 10},
+        levelstr = [[
+]]
+      }
+
+
     }
+  }
+
 
   }
+    
   
 
   -- setup input table
@@ -382,6 +488,8 @@ function love.draw()
   	--love.graphics.print(current_level_grid:to_string())
     local level_canvas = current_level_grid:to_canvas()
     love.graphics.draw(level_canvas, math.floor(SCREEN_WIDTH/2 - level_canvas:getWidth()/2), math.floor(SCREEN_HEIGHT/2 - level_canvas:getHeight()/2))
+    local level_name = handfuls[selected_handful_no].levels[selected_level_no].name
+    love.graphics.print(level_name, math.floor(SCREEN_WIDTH/2 - resources.fonts.main_font:getWidth(level_name)/2), math.floor(SCREEN_HEIGHT/2 - level_canvas:getHeight()/2) + 12)
   elseif game_state == GameState.IN_MENU then
   	love.graphics.print(current_menu:to_string())
   end
@@ -399,29 +507,29 @@ function generate_end_menu(name)
     body = "",
     items = {
       objects.MenuItem:new {
-            name="Play again", func=function()
-              game_state = GameState.IN_GAME
-              selected_level_no = 1
-              selected_handful_no = 1
-              current_level_grid = objects.Grid.from_Level(handfuls[selected_handful_no].levels[selected_level_no])
-            end
-          },
-          objects.MenuItem:new {
-            name="Exit to Main Menu", func=function()
-              current_menu = main_menu
-              current_menu.selected_item = 1
-              game_mode = GameMode.NORMAL
-            end
-          },
-          objects.MenuItem:new {
-            name="Transcend", func=function()
-              selected_handful_no = seleceted_handful_no + 1
-              selected_level_no = 1 
-              current_level_grid = objects.Grid.from_Level(handfuls[selected_handful_no].levels[selected_level_no])
-              game_state = GameState.IN_GAME
-            end
-          }
+        name="Transcend", func=function()
+          selected_handful_no = selected_handful_no + 1
+          selected_level_no = 1 
+          current_level_grid = objects.Grid.from_Level(handfuls[selected_handful_no].levels[selected_level_no])
+          game_state = GameState.IN_GAME
+        end
+      },
+      objects.MenuItem:new {
+        name="Play again", func=function()
+          selected_level_no = 1
+          current_level_grid = objects.Grid.from_Level(handfuls[selected_handful_no].levels[selected_level_no])
+          game_state = GameState.IN_GAME
+        end
+      },
+      objects.MenuItem:new {
+        name="Exit to Main Menu", func=function()
+          current_menu = main_menu
+          current_menu.selected_item = 1
+          game_mode = GameMode.NORMAL
+        end
       }
+          
+    }
 
   }
   return end_menu

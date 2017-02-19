@@ -181,7 +181,7 @@ function Grid.from_Level(level)
           destination = Destination:new{color = char_to_color(char)},
           image = resources.images.squares.basic_empty,
         }
-      elseif char:match("[%-%|0-7]") then
+      elseif char:match("[-|0-7]") then
         grid.squares[y][x] = Square:new {
           collision = char_to_collision(char),
           image = resources.images.squares.basic_empty

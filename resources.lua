@@ -51,7 +51,8 @@ module.images = {
 
 -- initialize fonts
 module.fonts = {
-  main_font = love.graphics.newFont("/resources/fonts/Inconsolata.otf", 20)
+  main_font = love.graphics.newFont("/resources/fonts/Inconsolata.otf", 20),
+  large_font = love.graphics.newFont("/resources/fonts/Inconsolata.otf", 30)
 }
 
 return module
