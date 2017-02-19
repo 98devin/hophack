@@ -250,18 +250,18 @@ function love.load()
 ##########]]
         },
         objects.Level:new {
-          name = "",
+          name = "Ruby on Rails",
           size = {x = 10, y = 10},
           levelstr = [[
 ##########
-#        #
-#        #
-#        #
-#        #
-#        #
-#        #
-#        #
-#        #
+#5-35a--1#
+#|-||517|#     
+#33|||||7#
+#7- 151||#
+#| ||1513#
+#5-35 --|#
+#|7|7-1-|#
+#55-3|A13#
 ##########]]
         },
       }
@@ -286,9 +286,18 @@ function love.load()
 #########]]
       },
       objects.Level:new {
-        name = "",
-        size = {x = 10, y = 10},
+        name = "Zounds",
+        size = {x = 9, y = 9},
         levelstr = [[
+#########
+#x t#u x#
+# X # X #
+#  U#T  #
+#########
+#u  #  t#
+# X # X #
+#x U#T x#
+#########
 ]]
       }
 
@@ -534,6 +543,3 @@ function generate_end_menu(name)
   }
   return end_menu
 end
-
-
-
