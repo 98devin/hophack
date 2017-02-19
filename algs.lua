@@ -147,6 +147,8 @@ function char_to_collision(c)
   return collision
 end
 
+
+
 exports = {
 	move      = move,
   move_all  = move_all,

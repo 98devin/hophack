@@ -61,14 +61,14 @@ function love.load()
           size = {x = 10, y = 10},
           levelstr =[[
 ##########
-#       A#
+#   tTuUA#
 # a      #
 #   #B   #
 #   ###  #
 #  ###B  #
 #   B#   #
 #    b   #
-#        #
+#    tTuU#
 ##########]]
         },
         objects.Level:new {

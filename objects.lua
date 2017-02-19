@@ -43,10 +43,10 @@ local Direction = {
 }
 
 local Color = {
- 	RED = {},
-  BLUE = {},
+ 	RED    = {},
+  BLUE   = {},
   YELLOW = {},
-  GREEN = {}
+  GREEN  = {}
 }
 
 -- Object representing a grid square.
@@ -54,9 +54,10 @@ local Color = {
 local Square = Object:new {
   collision   = Collision.EMPTY,
   occupied    = false,
+  occupant    = nil, -- should contain a Block if occupied = true
   destination = nil, -- { color = ... }
+  teleporter  = nil, -- if not nil, should contain a Teleporter
   image       = resources.images.squares.basic_floor,
-  occupant    = nil -- should contain a Block if occupied = true
 }
 
 local Block = Object:new {
@@ -68,6 +69,50 @@ local Block = Object:new {
   },
   color = nil
 }
+
+local Destination = Object:new {
+  color = nil
+}
+
+local Teleporter = Object:new {
+  color = nil, -- a Color for use in identifying different pairs of teleporters
+  position = { -- the position in the grid which this teleporter is found at
+    x = nil, y = nil
+  },
+  warp_position = { -- the position to which it warps.
+    x = nil, y = nil
+  }
+}
+
+function char_to_teleporter_color(char)
+  if char == "t" then
+    return Color.BLUE
+  elseif char == "T" then
+    return Color.RED
+  elseif char == "u" then
+    return Color.YELLOW
+  elseif char == "U" then
+    return Color.GREEN
+  end
+end
+
+function link_teleporters(teleporters)
+  local found_match = {} -- keeps track of found matches, ensures we don't match 3+ teleporters
+  local by_color = {} -- stores a teleporter of the proper color (which we should match with)
+  for _, teleporter in ipairs(teleporters) do
+    if by_color[teleporter.color] then
+      if found_match[teleporter.color] then
+        error("Found three or more teleporters of the same color when parsing a level.")
+      end
+      local match = by_color[teleporter.color]
+      match.warp_position = teleporter.position
+      teleporter.warp_position = match.position
+      found_match[teleporter.color] = true
+    else
+      by_color[teleporter.color] = teleporter
+    end
+  end
+end
 
 local Grid = Object:new {
   size = {
@@ -101,6 +146,7 @@ function Grid.from_Level(level)
   }
   local x = 1
   local y = 1
+  local teleporters = {}
   for line in (level.levelstr .. "\n"):gmatch("([^\n]*)\n") do
   	for char in line:gmatch(".") do
       if char == " " then
@@ -129,7 +175,7 @@ function Grid.from_Level(level)
       elseif char:match("[A-DX]") then
         grid.squares[y][x] = Square:new {
         	collision = Collision.EMPTY,
-          destination = {color = char_to_color(char)},
+          destination = Destination:new{color = char_to_color(char)},
           image = resources.images.squares.basic_empty,
         }
       elseif char:match("[%-%|0-7]") then
@@ -137,12 +183,23 @@ function Grid.from_Level(level)
           collision = char_to_collision(char),
           image = resources.images.squares.basic_empty
         }
+      elseif char:match("[tTuU]") then
+        local teleporter = Teleporter:new{
+          color = char_to_teleporter_color(char),
+          position = {x = x, y = y}
+        }
+        grid.squares[y][x] = Square:new {
+          teleporter = teleporter,
+          image = resources.images.squares.basic_empty
+        }
+        table.insert(teleporters, teleporter)
       end
       x = x + 1
     end
   	y = y + 1
     x = 1
   end
+  link_teleporters(teleporters)
   return grid
 end
 
@@ -182,6 +239,11 @@ function Grid:to_canvas()
           end
         else
           love.graphics.draw(square.image, xpos, ypos, 0, 5)
+          if square.teleporter then
+            love.graphics.draw(
+              resources.images.squares.modifiers.teleporter[color_to_string(square.teleporter.color)], xpos, ypos, 0, 5
+            )
+          end
           if square.destination then
             love.graphics.draw(
               resources.images.squares.modifiers.destination[color_to_string(square.destination.color)], xpos, ypos, 0, 5
@@ -254,10 +316,6 @@ local MenuItem = Object:new {
   func = nil, -- function which will be called when the menu item is chosen
 }
 
-local Desitnation = Object:new {
-  color = nil
-}
-
 function char_to_color(c)
   local c = string.lower(c)
   if c == 'a' then
@@ -297,8 +355,8 @@ local Handful = Object:new {
   name = "",
  	levels = {}, -- a list of the levels comprising the handful 
   end_menu = nil, -- a menu to be launched when this is completed
-  
 }
+
 
 exports = {
   Object    = Object,
