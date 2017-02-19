@@ -30,31 +30,6 @@ function love.load()
 	handfuls = {
   	objects.Handful:new {
     	name = "The First Five",
-      end_menu = objects.Menu:new {
-        name = "Congratulations!\nYou have conquered a handful of simple levels.",
-        items = {
-          objects.MenuItem:new {
-            name="Play again", func=function()
-              game_state = GameState.IN_GAME
-              selected_level_no = 1
-              selected_handful_no = 1
-              current_level_grid = objects.Grid.from_Level(handfuls[selected_handful_no].levels[selected_level_no])
-              time_elapsed = 0
-              moves_made = 0
-            end
-          },
-          objects.MenuItem:new {
-            name="Exit to Main Menu", func=function()
-              current_menu = main_menu
-              current_menu.selected_item = 1
-              game_mode = GameMode.NORMAL
-            end
-          },
-          objects.MenuItem:new {
-            name="Transcend", func=function() love.event.quit(0) end
-          }
-        }
-      },
       levels = {
       	objects.Level:new {
         	name = "Level 1",
@@ -116,22 +91,10 @@ function love.load()
 #b       #
 ##########]]
         },
-        objects.Level:new {
-        	name = "Level 5",
-          size = {x = 10, y = 10},
-          levelstr =[[
-##########
-#       B#
-#x  123  #
-#    4  A#
-#a       #
-#   5   D#
-#d  67   #
-#    0  X#
-#b       #
-##########]]
-        }
-      }
+        
+      },
+      end_menu = generate_end_menu("Congratulations!\n\n"),
+
     }
   }
   
@@ -290,7 +253,12 @@ function love.update(dt)
         moves_made = moves_made + 1
       end
       if algs.has_won(current_level_grid) then
+        handfuls[selected_handful_no].levels[selected_level_no].time = time_elapsed
+        handfuls[selected_handful_no].levels[selected_level_no].moves = moves_made
+        handfuls[selected_handful_no]:update_menu_body()
         game_state = GameState.IN_MENU
+        time_elapsed = 0
+        moves_made = 0
         if selected_level_no == #(handfuls[selected_handful_no].levels) then
           current_menu = handfuls[selected_handful_no].end_menu
           current_menu.selected_item = 1
@@ -327,6 +295,32 @@ function love.draw()
   end
 end
 
+function generate_end_menu(name)
+  end_menu = objects.Menu:new {
+    name = name,
+    body = "",
+    items = {
+      objects.MenuItem:new {
+            name="Play again", func=function()
+              game_state = GameState.IN_GAME
+              selected_level_no = 1
+              selected_handful_no = 1
+              current_level_grid = objects.Grid.from_Level(handfuls[selected_handful_no].levels[selected_level_no])
+            end
+          },
+          objects.MenuItem:new {
+            name="Exit to Main Menu", func=function()
+              current_menu = main_menu
+              current_menu.selected_item = 1
+              game_mode = GameMode.NORMAL
+            end
+          },
+          objects.MenuItem:new {
+            name="Transcend", func=function() love.event.quit(0) end
+          }
+      }
 
-
+  }
+  return end_menu
+end
 

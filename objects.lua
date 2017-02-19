@@ -212,7 +212,8 @@ end
 local Menu = Object:new {
   name  = "",
 	items = {},
-  selected_item = 1
+  selected_item = 1,
+  body = ""
 }
 
 function Menu:to_string()
@@ -225,6 +226,7 @@ function Menu:to_string()
     end
     str = str .. menu_item.name .. "\n"
   end
+  str = str .. "\n\n\n" .. self.body
   return str
 end
 
@@ -290,7 +292,9 @@ local Level = Object:new {
   size = {
     x = nil, y = nil
   },
-  levelstr = ""
+  levelstr = "",
+  time = 0,
+  moves = 0
 }
 
 local Handful = Object:new {
@@ -299,6 +303,21 @@ local Handful = Object:new {
   end_menu = nil, -- a menu to be launched when this is completed
   
 }
+
+function Handful:new(o)
+  o = o or {}
+  setmetatable(o, self)
+  self.__index = self
+
+  o:update_menu_body()
+  return o
+end
+
+function Handful:update_menu_body()
+  if self.end_menu then
+    self.end_menu.body = get_body(self.levels)
+  end
+end
 
 exports = {
   Object    = Object,
