@@ -21,15 +21,37 @@ function move(grid, block, direction)
     new_y = init_y
   end
   local dest_square = grid:get(new_x, new_y)
+  local teleport_dest_square
+  if dest_square.teleporter then
+    teleport_dest_square = grid:get(dest_square.teleporter.warp_position.x, dest_square.teleporter.warp_position.y)
+  end
   if not dest_square.occupied and not collides(dest_square, direction) then
     init_square.occupied = false
+    if init_square.teleporter then
+      init_square.teleporter.covered = false
+    end
     init_square.occupant = nil
+    -- check teleporter stuff
+    if teleport_dest_square then
+      if not teleport_dest_square.teleporter.covered and not teleport_dest_square.occupied then
+        dest_square = teleport_dest_square
+        new_x = dest_square.teleporter.position.x
+        new_y = dest_square.teleporter.position.y
+      else
+        --dest_square.teleporter.covered = true
+      end
+    end
     dest_square.occupied = true
     dest_square.occupant = block
+
     -- update block's position
     block.position.x = new_x
     block.position.y = new_y
     return true
+  else
+    if init_square.teleporter then
+      init_square.teleporter.covered = true
+    end
   end
   return false
 end

@@ -76,6 +76,7 @@ local Destination = Object:new {
 
 local Teleporter = Object:new {
   color = nil, -- a Color for use in identifying different pairs of teleporters
+  covered = false, -- whether a block is sitting on top and blocking the teleporter
   position = { -- the position in the grid which this teleporter is found at
     x = nil, y = nil
   },
