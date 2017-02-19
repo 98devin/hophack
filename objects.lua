@@ -77,6 +77,7 @@ local Destination = Object:new {
 local Teleporter = Object:new {
   color = nil, -- a Color for use in identifying different pairs of teleporters
   covered = false, -- whether a block is sitting on top and blocking the teleporter
+  updated_this_round = false,
   position = { -- the position in the grid which this teleporter is found at
     x = nil, y = nil
   },
@@ -121,7 +122,8 @@ local Grid = Object:new {
     y = 10
   },
   squares = nil, -- will be initialized in Grid:new
-  blocks  = nil  -- same
+  blocks  = nil, -- same
+  teleporters = {},
 }
 
 function Grid:new(o)
@@ -201,6 +203,7 @@ function Grid.from_Level(level)
     x = 1
   end
   link_teleporters(teleporters)
+  grid.teleporters = teleporters
   return grid
 end
 
