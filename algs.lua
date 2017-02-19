@@ -78,8 +78,10 @@ function has_won(grid)
     local square = grid:get(block.position.x, block.position.y)
     if square.destination == nil then
       return false
-    elseif square.destination.color ~= block.color then
-      return false
+    elseif square.destination.color ~= nil then
+      if block.color and block.color ~= square.destination.color then
+        return false
+      end
     end
   end
   return true
