@@ -124,6 +124,28 @@ function love.load()
     }
   }
 
+  end_menu = objects.Menu:new {
+    name = "Congratulations!\nYou have conquered a handful of simple levels.",
+    items = {
+    	objects.MenuItem:new {
+        name="Play again", func=function()
+        	game_state = GameState.IN_GAME
+        	selected_level_no = 1
+        	current_level_grid = objects.Grid.from_string(levels[selected_level_no])
+      	end
+      },
+      objects.MenuItem:new {
+        name="Exit to Main Menu", func=function()
+          current_menu = main_menu
+          current_menu.selected_item = 1
+        end
+      },
+      objects.MenuItem:new {
+    		name="Transcend", func=function() love.event.quit(0) end
+  		}
+    }
+  }
+
   current_menu = main_menu -- start off at the main menu
 
 end
@@ -158,7 +180,11 @@ function love.update()
       algs.move_all(current_level_grid, direction)
       if algs.has_won(current_level_grid) then
         game_state = GameState.IN_MENU
-        current_menu = clear_menu
+        if selected_level_no == #levels then
+          current_menu = end_menu
+        else
+          current_menu = clear_menu
+        end
         current_menu.selected_item = 1
       end
     end
