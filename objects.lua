@@ -95,11 +95,13 @@ function Grid:get(x, y)
 	return self.squares[y][x]
 end
 
-function Grid.from_string(levelstr)
-  local grid = Grid:new()
+function Grid.from_Level(level)
+  local grid = Grid:new{
+    size = level.size
+  }
   local x = 1
   local y = 1
-  for line in (levelstr .. "\n"):gmatch("([^\n]*)\n") do
+  for line in (level.levelstr .. "\n"):gmatch("([^\n]*)\n") do
   	for char in line:gmatch(".") do
       if char == " " then
       	grid.squares[y][x] = Square:new {
@@ -283,6 +285,21 @@ function color_to_string(c)
   end
 end
 
+local Level = Object:new {
+  name = "",
+  size = {
+    x = nil, y = nil
+  },
+  levelstr = ""
+}
+
+local Handful = Object:new {
+  name = "",
+ 	levels = {}, -- a list of the levels comprising the handful 
+  end_menu = nil, -- a menu to be launched when this is completed
+  
+}
+
 exports = {
   Object    = Object,
 	Collision = Collision,
@@ -291,7 +308,9 @@ exports = {
   Block     = Block,
   MenuItem  = MenuItem,
   Menu      = Menu,
-  Direction = Direction
+  Direction = Direction,
+  Level     = Level,
+  Handful   = Handful
 }
 
 return exports
