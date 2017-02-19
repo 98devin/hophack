@@ -36,6 +36,7 @@ function love.load()
           size = {x = 10, y = 9},
           levelstr =[[
 ##########
+<<<<<<< HEAD
 #        #
 #        #
 #        #
@@ -44,6 +45,17 @@ function love.load()
 #        #
 #        #
 ########]]
+=======
+#T      t#
+#        #
+#   A#   #
+#  ###A  #
+#  B###  #
+#a  #B  b#
+#        #
+#t      T#
+##########]]
+>>>>>>> 0f125858b32040273b02db9983c1638a0f4694a8
         },
         objects.Level:new {
         	name = "Level 2",

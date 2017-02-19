@@ -34,6 +34,12 @@ module.images = {
         down    = love.graphics.newImage("/resources/images/squares/modifiers/collision-down.png"),
         left    = love.graphics.newImage("/resources/images/squares/modifiers/collision-left.png"),
         right   = love.graphics.newImage("/resources/images/squares/modifiers/collision-right.png")
+      },
+      teleporter = {
+        blue   = love.graphics.newImage("/resources/images/squares/modifiers/teleporter-blue.png"),
+        green  = love.graphics.newImage("/resources/images/squares/modifiers/teleporter-green.png"),
+        red    = love.graphics.newImage("/resources/images/squares/modifiers/teleporter-red.png"),
+        yellow = love.graphics.newImage("/resources/images/squares/modifiers/teleporter-yellow.png")
       }
     },
     basic_wall  = love.graphics.newImage("/resources/images/squares/basic-wall.png"),
