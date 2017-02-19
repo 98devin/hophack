@@ -78,14 +78,73 @@ function has_won(grid)
     local square = grid:get(block.position.x, block.position.y)
     if square.destination == nil then
       return false
-    elseif square.destination.color ~= block.color then
-      return false
+    elseif square.destination.color ~= nil then
+      if block.color and block.color ~= square.destination.color then
+        return false
+      end
     end
   end
   return true
 end
-
-
+function char_to_collision(c)
+  local collision
+  if c == '0' then
+    collision = Collision:new{
+      up = true,
+      right = true,
+      left = true
+    }
+  elseif c == '1' then
+    collision = Collision:new{
+      up = true,
+      right = true
+    }
+  elseif c == '2' then
+    collision = Collision:new{ 
+      up = true,
+      down = true,
+      right = true
+    }
+  elseif c == '3' then
+    collision = Collision:new{
+      right = true,
+      down = true
+    }
+  elseif c == '4' then
+    collision = Collision:new{
+      right = true,
+      down = true,
+      left = true
+    }
+  elseif c == '5' then
+    collision = Collision:new{
+      left = true,
+      down = true
+    }
+  elseif c == '6' then
+    collision = Collision:new{
+      left = true,
+      down = true,
+      up = true
+    }
+  elseif c == '7' then
+    collision = Collision:new{
+      left = true,
+      up = true
+  	}
+  elseif c == '-' then
+    collision = Collision:new{
+      up = true,
+      down = true
+    }  
+  elseif c == '|' then
+    collision = Collision:new{
+      left = true,
+      right = true
+    }
+  end
+  return collision
+end
 
 exports = {
 	move      = move,
@@ -94,6 +153,16 @@ exports = {
 }
 
 return exports
+  
+  
+  
+  
+  
+  
+ 
+  
+  
+  
   
   
   
