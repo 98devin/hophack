@@ -33,8 +33,120 @@ function love.load()
       levels = {
       	objects.Level:new {
         	name = "Level 1",
+          size = {x = 10, y = 9},
+          levelstr =[[
+##########
+#        #
+#        #
+#        #
+# x    X #
+#        #
+#        #
+#        #
+########]]
+        },
+        objects.Level:new {
+        	name = "Level 2",
           size = {x = 10, y = 10},
           levelstr =[[
+##########
+#        #
+#        #
+# x #    #
+#   # X  #
+#   #    #
+#   #    #
+#   #    #
+#   #    #
+##########]]
+        },
+        objects.Level:new {
+        	name = "Level 3",
+          size = {x = 10, y = 10},
+          levelstr =[[
+##########
+#     XX #
+#        #
+#   #    #
+# x # x  #
+#   #    #
+#        #
+#        #
+#        #
+##########]]
+        },
+        objects.Level:new {
+          name = "Level 4",
+        	size = {x = 10, y = 10},
+          levelstr =[[
+##########
+#        #
+#        #
+#        #
+# x###   #
+# x ##   #
+#   ##   #
+#   ##   #
+#  X##X  #
+##########]]
+        },
+        objects.Level:new {
+          name = "Level 5",
+          size = {x = 10, y = 10},
+          levelstr =[[
+##########
+#        #
+# x    X #
+#   #    #
+# x #  X #
+#   #    #
+# x    X #
+#        #
+#        #
+##########]]
+        }
+        
+      },
+      end_menu = generate_end_menu("Congratulations!\n\n"),
+
+    },
+    objects.Handful:new{
+      name = "The Second Five",
+      levels = {
+        objects.Level:new {
+          name = "Level 6",
+          size = {x = 10, y = 10},
+          levelstr = [[
+##########
+#   ##  A#
+#   ##   #
+# a  B   #
+#   ##  B#
+#   ##   #
+# b  A   #
+#   ##   #
+#   ##   #
+##########]]
+        },
+        objects.Level:new {
+          name = "Level 7",
+          size = {x = 10, y = 10},
+          levelstr = [[
+##########
+#        #
+#b      B#
+#        #
+##########
+##########
+#        #
+#b      X#
+#        #
+##########]]
+        },
+        objects.Level:new {
+          name = "Level 8",
+          size = {x = 10, y = 10},
+          levelstr = [[
 ##########
 #       A#
 # a      #
@@ -47,39 +159,23 @@ function love.load()
 ##########]]
         },
         objects.Level:new {
-        	name = "Level 2",
-          size = {x = 10, y = 10},
-          levelstr =[[
-##########
-# BC A   #
-# cb# #  #
-#   ##   #
-#   ###  #
-#  a #   #
-#        #
-#        #
-#        #
-##########]]
+          name = "Level 9",
+          size = {x = 9, y = 9},
+          levelstr = [[
+#########
+#X##A##X#
+# ## ## #
+# ## ## #
+#       #
+# ## ## #
+# ## ## #
+#a##b##a#
+#########]]
         },
         objects.Level:new {
-        	name = "Level 3",
+          name = "Level 10",
           size = {x = 10, y = 10},
-          levelstr =[[
-##########
-#     ##B#
-# b #### #
-#    B   #
-#   ######
-#        #
-#   B#   #
-#    b   #
-#        #
-##########]]
-        },
-        objects.Level:new {
-          name = "Level 4",
-        	size = {x = 10, y = 10},
-          levelstr =[[
+          levelstr = [[
 ##########
 #       B#
 #x  ###  #
@@ -90,12 +186,11 @@ function love.load()
 #    #  X#
 #b       #
 ##########]]
-        },
-        
-      },
-      end_menu = generate_end_menu("Congratulations!\n\n"),
+        }
 
+      }
     }
+
   }
   
 
@@ -316,11 +411,18 @@ function generate_end_menu(name)
             end
           },
           objects.MenuItem:new {
-            name="Transcend", func=function() love.event.quit(0) end
+            name="Transcend", func=function()
+              selected_handful_no = seleceted_handful_no + 1
+              selected_level_no = 1 
+              current_level_grid = objects.Grid.from_Level(handfuls[selected_handful_no].levels[selected_level_no])
+              game_state = GameState.IN_GAME
+            end
           }
       }
 
   }
   return end_menu
 end
+
+
 

@@ -250,7 +250,6 @@ function Menu:activate_selection()
   self.items[self.selected_item].func()
 end
 
-
 local MenuItem = Object:new {
   name = "",
   func = nil, -- function which will be called when the menu item is chosen
