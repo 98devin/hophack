@@ -1,6 +1,8 @@
 
 module = {}
 
+love.graphics.setDefaultFilter('linear', 'nearest')
+
 -- initialize images
 module.images = {
   blocks = {

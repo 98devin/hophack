@@ -21,7 +21,6 @@ function love.load()
   SCREEN_WIDTH = 500
   SCREEN_HEIGHT = 500
   assert(love.window.setMode(SCREEN_WIDTH, SCREEN_HEIGHT))
-  love.graphics.setDefaultFilter('linear', 'nearest')
 
   -- initialize levels
   selected_level_no = 1
@@ -283,7 +282,8 @@ function love.draw()
   love.graphics.clear(0, 0, 0)
   if game_state == GameState.IN_GAME then
   	--love.graphics.print(current_level_grid:to_string())
-    love.graphics.draw(current_level_grid:to_canvas(), 0, 0)
+    local level_canvas = current_level_grid:to_canvas()
+    love.graphics.draw(level_canvas, math.floor(SCREEN_WIDTH/2 - level_canvas:getWidth()/2), math.floor(SCREEN_HEIGHT/2 - level_canvas:getHeight()/2))
   elseif game_state == GameState.IN_MENU then
   	love.graphics.print(current_menu:to_string())
   end
