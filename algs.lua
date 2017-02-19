@@ -26,6 +26,11 @@ function move(grid, block, direction)
     init_square.occupant = nil
     dest_square.occupied = true
     dest_square.occupant = block
+
+    if dest_square.teleporter then
+      dest_square.teleporter.updated_this_round = true
+    end
+
     -- update block's position
     block.position.x = new_x
     block.position.y = new_y
@@ -69,8 +74,41 @@ function move_all(grid, direction)
       moved_any = true
     end
   end
-  
+
+  local teleported_before = {}
+  for _, teleporter in ipairs(grid.teleporters) do
+    if not teleported_before[teleporter] then
+      local this_space = grid:get(teleporter.position.x, teleporter.position.y)
+      local warp_space = grid:get(teleporter.warp_position.x, teleporter.warp_position.y)
+      local matching_teleporter = warp_space.teleporter
+      teleported_before[teleporter] = true
+      teleported_before[matching_teleporter] = true
+      if (not this_space.occupied or teleporter.updated_this_round) and
+         (not warp_space.occupied or matching_teleporter.updated_this_round) then
+        swap_occupants(
+          grid, teleporter.position.x, teleporter.position.y,
+          matching_teleporter.position.x, matching_teleporter.position.y
+        )
+      end
+      teleporter.updated_this_round = false
+      matching_teleporter.updated_this_round = false
+    end
+  end
+
   return moved_any
+end
+
+function swap_occupants(grid, x1, y1, x2, y2)
+  local sq1 = grid:get(x1, y1)
+  local sq2 = grid:get(x2, y2)
+  sq1.occupied, sq2.occupied = sq2.occupied, sq1.occupied
+  sq1.occupant, sq2.occupant = sq2.occupant, sq1.occupant
+  if sq1.occupant then
+    sq1.occupant.position = {x=x1, y=y1}
+  end
+  if sq2.occupant then
+    sq2.occupant.position = {x=x2, y=y2}
+  end
 end
 
 function has_won(grid)
