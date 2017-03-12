@@ -36,14 +36,14 @@ Collision.EMPTY = Collision:new{}
 
 -- enum of possible directions
 local Direction = {
-	UP    = {},
+  UP    = {},
   DOWN  = {},
   LEFT  = {},
   RIGHT = {}
 }
 
 local Color = {
- 	RED    = {},
+   RED    = {},
   BLUE   = {},
   YELLOW = {},
   GREEN  = {}
@@ -61,7 +61,7 @@ local Square = Object:new {
 }
 
 local Block = Object:new {
-	collision = Collision.WALL,
+  collision = Collision.WALL,
   image     = resources.images.blocks.basic,
   position = {
     x = nil,
@@ -140,7 +140,7 @@ function Grid:new(o)
 end
 
 function Grid:get(x, y)
-	return self.squares[y][x]
+  return self.squares[y][x]
 end
 
 function Grid.from_Level(level)
@@ -151,15 +151,15 @@ function Grid.from_Level(level)
   local y = 1
   local teleporters = {}
   for line in (level.levelstr .. "\n"):gmatch("([^\n]*)\n") do
-  	for char in line:gmatch(".") do
+    for char in line:gmatch(".") do
       if char == " " then
-      	grid.squares[y][x] = Square:new {
+        grid.squares[y][x] = Square:new {
           collision = Collision.EMPTY,
           image     = resources.images.squares.basic_empty
         }
       elseif char:match("[a-dx]") then
         local block = Block:new {
-        	position = {x = x, y = y},
+          position = {x = x, y = y},
           image    = resources.images.blocks.basic,
           color = char_to_color(char)
         }
@@ -177,7 +177,7 @@ function Grid.from_Level(level)
         }
       elseif char:match("[A-DX]") then
         grid.squares[y][x] = Square:new {
-        	collision = Collision.EMPTY,
+          collision = Collision.EMPTY,
           destination = Destination:new{color = char_to_color(char)},
           image = resources.images.squares.basic_empty,
         }
@@ -199,7 +199,7 @@ function Grid.from_Level(level)
       end
       x = x + 1
     end
-  	y = y + 1
+    y = y + 1
     x = 1
   end
   link_teleporters(teleporters)
@@ -211,7 +211,7 @@ function Grid:to_string()
   local str = ""
   for y = 1, self.size.y do
     for x = 1, self.size.x do
-    	local square = self:get(x, y)
+      local square = self:get(x, y)
       if not square.occupied then
         if square.collision == Collision.WALL then
           str = str .. "#"
@@ -277,7 +277,7 @@ end
 
 local Menu = Object:new {
   name  = "",
-	items = {},
+  items = {},
   selected_item = 1,
   body = ""
 }
@@ -360,7 +360,7 @@ local Level = Object:new {
 
 local Handful = Object:new {
   name = "",
- 	levels = {}, -- a list of the levels comprising the handful 
+   levels = {}, -- a list of the levels comprising the handful 
   end_menu = nil, -- a menu to be launched when this is completed
 }
 
@@ -381,7 +381,7 @@ end
 
 exports = {
   Object    = Object,
-	Collision = Collision,
+  Collision = Collision,
   Square    = Square,
   Grid      = Grid,
   Block     = Block,

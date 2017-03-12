@@ -8,10 +8,10 @@ function move(grid, block, direction)
   local init_square = grid:get(init_x, init_y)
   local new_x, new_y
   if direction == Direction.UP then
-  	new_x = init_x
+    new_x = init_x
     new_y = init_y - 1
   elseif direction == Direction.DOWN then
-  	new_x = init_x
+    new_x = init_x
     new_y = init_y + 1
   elseif direction == Direction.LEFT then
     new_x = init_x - 1
@@ -48,14 +48,14 @@ function collides(square, direction)
   elseif direction == Direction.LEFT then
     return square.collision.right
   elseif direction == Direction.RIGHT then
-  	return square.collision.left
+    return square.collision.left
   end
 end
 
 
 function move_all(grid, direction)
   function sorting_function(direction)
-  	if direction == Direction.UP then
+    if direction == Direction.UP then
       return (function(a, b) return a.position.y < b.position.y end)
     elseif direction == Direction.DOWN then
       return (function(a, b) return a.position.y > b.position.y end)
@@ -68,7 +68,7 @@ function move_all(grid, direction)
   
   local moved_any = false
   table.sort(grid.blocks, sorting_function(direction))
-	for _, block in ipairs(grid.blocks) do
+  for _, block in ipairs(grid.blocks) do
     local moved = move(grid, block, direction)
     if moved then
       moved_any = true
@@ -170,7 +170,7 @@ function char_to_collision(c)
     collision = objects.Collision:new{
       left = true,
       up = true
-  	}
+    }
   elseif c == '-' then
     collision = objects.Collision:new{
       up = true,
@@ -194,7 +194,7 @@ function get_body(levels)
 end
 
 exports = {
-	move      = move,
+  move      = move,
   move_all  = move_all,
   has_won   = has_won
 }

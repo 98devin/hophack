@@ -26,13 +26,13 @@ function love.load()
   selected_level_no = 1
   selected_handful_no = 1
   current_level_grid = nil
-	handfuls = {
-  	objects.Handful:new {
-    	name = "The First Five",
+  handfuls = {
+    objects.Handful:new {
+      name = "The First Five",
       end_menu = generate_end_menu("Congratulations!\n\n"),
       levels = {
-      	objects.Level:new {
-        	name = "Go on...",
+        objects.Level:new {
+          name = "Go on...",
           size = {x = 10, y = 9},
           levelstr =[[
 ##########
@@ -46,7 +46,7 @@ function love.load()
 ##########]]
         },
         objects.Level:new {
-        	name = "The Divide",
+          name = "The Divide",
           size = {x = 9, y = 9},
           levelstr =[[
 #########
@@ -60,7 +60,7 @@ function love.load()
 #########]]
         },
         objects.Level:new {
-        	name = "Coming Together",
+          name = "Coming Together",
           size = {x = 10, y = 9},
           levelstr =[[
 ##########
@@ -75,7 +75,7 @@ function love.load()
         },
         objects.Level:new {
           name = "Growing Apart",
-        	size = {x = 10, y = 10},
+          size = {x = 10, y = 10},
           levelstr =[[
 ##########
 #        #
@@ -315,20 +315,20 @@ function love.load()
   game_mode = NORMAL
   main_menu = objects.Menu:new {
     name = "Main Menu:",
-  	items = {
-			objects.MenuItem:new {
-    		name="Play", func=function()
+    items = {
+      objects.MenuItem:new {
+        name="Play", func=function()
           selected_level_no = 1
           selected_handful_no = 1
-        	current_menu = selectmode_menu
+          current_menu = selectmode_menu
           current_menu.selected_item = 1
         end
-  		},
-  		objects.MenuItem:new {
-    		name="Quit", func=function() love.event.quit(0) end
-  		}
+      },
+      objects.MenuItem:new {
+        name="Quit", func=function() love.event.quit(0) end
+      }
     }
-	}
+  }
   selectmode_menu = objects.Menu:new {
     name = "Select game mode",
     items = {
@@ -359,18 +359,18 @@ function love.load()
           moves_made = 0
         end
       }
-    }	
+    }  
   }
   pause_menu = objects.Menu:new {
     name = "Game paused.",
-  	items = {
+    items = {
       objects.MenuItem:new {
-    		name="Continue", func=function()
-        	game_state = GameState.IN_GAME
-      	end
+        name="Continue", func=function()
+          game_state = GameState.IN_GAME
+        end
       },
-    	objects.MenuItem:new {
-    		name="Exit to Main Menu", func=function()
+      objects.MenuItem:new {
+        name="Exit to Main Menu", func=function()
           current_menu = main_menu
           current_menu.selected_item = 1
           game_mode = GameMode.NORMAL
@@ -378,7 +378,7 @@ function love.load()
       },
       objects.MenuItem:new {
         name="Restart level", func=function()
-        	current_level_grid = objects.Grid.from_Level(handfuls[selected_handful_no].levels[selected_level_no])
+          current_level_grid = objects.Grid.from_Level(handfuls[selected_handful_no].levels[selected_level_no])
           game_state = GameState.IN_GAME
           time_elapsed = 0
           moves_made = 0
@@ -389,12 +389,12 @@ function love.load()
   clear_menu = objects.Menu:new {
     name = "Level Cleared!",
     items = {
-    	objects.MenuItem:new {
-      	name="Advance to next level", func=function()
+      objects.MenuItem:new {
+        name="Advance to next level", func=function()
           selected_level_no = selected_level_no + 1
           
           current_level_grid = objects.Grid.from_Level(handfuls[selected_handful_no].levels[selected_level_no])
-        	game_state = GameState.IN_GAME
+          game_state = GameState.IN_GAME
           time_elapsed = 0
           moves_made = 0
         end
@@ -438,12 +438,12 @@ function love.keypressed(key)
     elseif key == 'right' then
       table.insert(input, Direction.RIGHT)
     elseif key == 'escape' then
-    	if game_state == GameState.IN_GAME then
+      if game_state == GameState.IN_GAME then
         current_menu = pause_menu
         game_state = GameState.IN_MENU
       end
     elseif key == 'return' then
-			if game_state == GameState.IN_MENU then
+      if game_state == GameState.IN_MENU then
         current_menu:activate_selection()
       end
     end
@@ -481,20 +481,20 @@ function love.update(dt)
   end
   input = {}
   if game_state == GameState.IN_GAME then
-  	time_elapsed = time_elapsed + dt
+    time_elapsed = time_elapsed + dt
   end
 end
 
 function love.draw()
   love.graphics.clear(0, 0, 0)
   if game_state == GameState.IN_GAME then
-  	--love.graphics.print(current_level_grid:to_string())
+    --love.graphics.print(current_level_grid:to_string())
     local level_canvas = current_level_grid:to_canvas()
     love.graphics.draw(level_canvas, math.floor(SCREEN_WIDTH/2 - level_canvas:getWidth()/2), math.floor(SCREEN_HEIGHT/2 - level_canvas:getHeight()/2))
     local level_name = handfuls[selected_handful_no].levels[selected_level_no].name
     love.graphics.print(level_name, math.floor(SCREEN_WIDTH/2 - resources.fonts.main_font:getWidth(level_name)/2), math.floor(SCREEN_HEIGHT/2 - level_canvas:getHeight()/2) + 12)
   elseif game_state == GameState.IN_MENU then
-  	love.graphics.print(current_menu:to_string())
+    love.graphics.print(current_menu:to_string())
   end
   
   if game_mode == GameMode.TIME then
