@@ -106,7 +106,7 @@ function love.load()
       },
 
     },
-    objects.Handful:new{
+    objects.Handful:new {
       name = "The Second Five",
       end_menu = generate_end_menu("Congratulations!\n\n"),
       levels = {
@@ -183,8 +183,6 @@ function love.load()
 #b       #
 ##########]]
         }
-
-
       }
     },
     objects.Handful:new {
@@ -267,10 +265,10 @@ function love.load()
       }
     },
     objects.Handful:new{
-    name = "The Final Four?",
-    end_menu = generate_end_menu("Congratulations! You've defeated quite a few handfuls of these"),
-    levels = {
-      objects.Level:new {
+      name = "The Final Four?",
+      end_menu = generate_end_menu("Congratulations! You've defeated quite a few handfuls of these"),
+      levels = {
+        objects.Level:new {
           name = "A hole in time",
           size = {x = 9, y = 10},
           levelstr = [[
@@ -284,11 +282,11 @@ function love.load()
 # x # t #
 #   #   #
 #########]]
-      },
-      objects.Level:new {
-        name = "Zounds",
-        size = {x = 9, y = 9},
-        levelstr = [[
+        },
+        objects.Level:new {
+          name = "Zounds",
+          size = {x = 9, y = 9},
+          levelstr = [[
 #########
 #a t#u b#
 # C # D #
@@ -296,17 +294,13 @@ function love.load()
 #########
 #u  #  t#
 # B # A #
-#d U#T c#
+#d U#T c# 
 #########
 ]]
+        }
       }
-
-
     }
-  }
-
-
-  }
+  } 
     
   
 
