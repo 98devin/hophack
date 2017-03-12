@@ -26,7 +26,7 @@ function love.load()
   selected_level_no = 1
   selected_handful_no = 1
   current_level_grid = nil
-  
+
   handfuls = initialize_handfuls()
   
 
@@ -267,7 +267,6 @@ function end_menu(name)
   }
 end
 
-<<<<<<< HEAD
 function level_clear_menu()
   return objects.Menu:new {
     name = "Cleared level '" .. current_level().name .. "'!",
@@ -345,13 +344,14 @@ function level_select_menu(handful, handful_no)
     end
   })
   return menu
-=======
+end
+
 function initialize_handfuls()
   local handfuls = {}
   local files = love.filesystem.getDirectoryItems("/resources/levels")
   for _, file in ipairs(files) do -- for each handful
     curr_handful = objects.Handful:new{
-      end_menu = generate_end_menu("Congratulations"),
+      end_menu = end_menu("Congratulations"),
       levels = {}
     }
     curr_level = objects.Level:new{size = {y = 0}}
@@ -373,5 +373,4 @@ function initialize_handfuls()
     table.insert(handfuls, curr_handful)
   end
   return handfuls
->>>>>>> LevelText
 end
