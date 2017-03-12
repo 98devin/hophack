@@ -186,7 +186,7 @@ function char_to_collision(c)
 end
 
 function get_body(levels)
- body = ""
+  local body = ""
   for _, lvl in ipairs(levels) do
     body = body .. string.format("%s - %.2f seconds, %d moves\n", lvl.name, lvl.time, lvl.moves)
   end
@@ -196,9 +196,9 @@ end
 exports = {
   move      = move,
   move_all  = move_all,
-  has_won   = has_won
+  has_won   = has_won,
+  get_body  = get_body
 }
-
 
 return exports
 

@@ -361,23 +361,14 @@ local Level = Object:new {
 
 local Handful = Object:new {
   name = "",
-   levels = {}, -- a list of the levels comprising the handful 
-  end_menu = nil, -- a menu to be launched when this is completed
+  levels = {}, -- a list of the levels comprising the handful
 }
 
 function Handful:new(o)
   o = o or {}
   setmetatable(o, self)
   self.__index = self
-
-  o:update_menu_body()
   return o
-end
-
-function Handful:update_menu_body()
-  if self.end_menu then
-    self.end_menu.body = get_body(self.levels)
-  end
 end
 
 exports = {

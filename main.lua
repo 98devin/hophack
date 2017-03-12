@@ -84,12 +84,11 @@ function love.update(dt)
       if algs.has_won(current_level_grid) then
         current_level().time = time_elapsed
         current_level().moves = moves_made
-        current_handful():update_menu_body()
         game_state = GameState.IN_MENU
         time_elapsed = 0
         moves_made = 0
         if selected_level_no == #(current_handful().levels) then
-          current_menu = current_handful().end_menu
+          current_menu = end_menu(current_handful())
           current_menu.selected_item = 1
         else
           current_menu = level_clear_menu()
@@ -235,10 +234,10 @@ function pause_menu()
   }
 end
 
-function end_menu(name)
+function end_menu(handful)
   return objects.Menu:new {
-    name = name,
-    body = "",
+    name = "Cleared handful '" .. handful.name .. "'",
+    body = algs.get_body(handful.levels),
     items = {
       objects.MenuItem:new {
         name="Transcend", func=function()
@@ -350,8 +349,7 @@ function initialize_handfuls()
   local handfuls = {}
   local files = love.filesystem.getDirectoryItems("/resources/levels")
   for _, file in ipairs(files) do -- for each handful
-    curr_handful = objects.Handful:new{
-      end_menu = end_menu("Congratulations"),
+    curr_handful = objects.Handful:new {
       levels = {}
     }
     curr_level = objects.Level:new{size = {y = 0}}
