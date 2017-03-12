@@ -26,281 +26,7 @@ function love.load()
   selected_level_no = 1
   selected_handful_no = 1
   current_level_grid = nil
-  handfuls = {
-    objects.Handful:new {
-      name = "The First Five",
-      end_menu = generate_end_menu("Congratulations!\n\n"),
-      levels = {
-        objects.Level:new {
-          name = "Go on...",
-          size = {x = 10, y = 9},
-          levelstr =[[
-##########
-#        #
-#        #
-#        #
-# x    X #
-#        #
-#        #
-#        #
-##########]]
-        },
-        objects.Level:new {
-          name = "The Divide",
-          size = {x = 9, y = 9},
-          levelstr =[[
-#########
-#       #
-#       #
-#   #   #
-# x # X #
-#   #   #
-#       #
-#       #
-#########]]
-        },
-        objects.Level:new {
-          name = "Coming Together",
-          size = {x = 10, y = 9},
-          levelstr =[[
-##########
-#   XX   #
-#        #
-#   ##   #
-# x ## x #
-#   ##   #
-#        #
-#        #
-##########]]
-        },
-        objects.Level:new {
-          name = "Growing Apart",
-          size = {x = 10, y = 10},
-          levelstr =[[
-##########
-#        #
-#   xx   #
-#        #
-#  ####  #
-#   ##   #
-#   ##   #
-#   ##   #
-# X ## X #
-##########]]
-        },
-        objects.Level:new {
-          name = "Three's a Crowd",
-          size = {x = 9, y = 9},
-          levelstr =[[
-#########
-#       #
-# x   X #
-#   #   #
-# x # X #
-#   #   #
-# x   X #
-#       #
-#########]]
-        }
-        
-      },
-
-    },
-    objects.Handful:new {
-      name = "The Second Five",
-      end_menu = generate_end_menu("Congratulations!\n\n"),
-      levels = {
-        objects.Level:new {
-          name = "Level 6",
-          size = {x = 9, y = 10},
-          levelstr = [[
-#########
-#   #   #
-#   #   #
-# a B   #
-#   #   #
-#   #   #
-# b A   #
-#   #   #
-#   #   #
-#########]]
-        },
-        objects.Level:new {
-          name = "Twins",
-          size = {x = 10, y = 9},
-          levelstr = [[
-##########
-#    # # #
-#a #   #X#
-#  # #   #
-##########
-#  # #   #
-#b #   #X#
-#    # # #
-##########]]
-        },
-        objects.Level:new {
-          name = "Multiple Choice",
-          size = {x = 10, y = 10},
-          levelstr = [[
-##########
-#       A#
-# a      #
-#   #B   #
-#  B###  #
-#  ###B  #
-#   B#   #
-# b      #
-#        #
-##########]]
-        },
-        objects.Level:new {
-          name = "Corridors",
-          size = {x = 9, y = 9},
-          levelstr = [[
-#########
-#X##A##X#
-# ## ## #
-# ## ## #
-#       #
-# ## ## #
-# ## ## #
-#a##b##a#
-#########]]
-        },
-        objects.Level:new {
-          name = "Tetris",
-          size = {x = 10, y = 10},
-          levelstr = [[
-##########
-#       B#
-#x  ###  #
-#    #  A#
-#a       #
-#   #   D#
-#d  ##   #
-#    #  X#
-#b       #
-##########]]
-        }
-      }
-    },
-    objects.Handful:new {
-      name = "The Third Five",
-      end_menu = generate_end_menu("Congratulations\n\n"),
-      levels = {
-        objects.Level:new {
-          name = "No Entry",
-          size = {x = 10, y = 10},
-          levelstr = [[
-##########
-#        #
-#        #
-##########
-####  ####
-# x  5 X #
-##########
-#        #
-#        #
-##########]]
-        },
-        objects.Level:new {
-          name = "One Way",
-          size = {x = 10, y = 9},
-          levelstr = [[
-##########
-#        #
-# X      #
-#        #
-#44440000#
-#        #
-# x      #
-#        #
-##########]]
-        },
-        objects.Level:new {
-          name = "",
-          size = {x = 9, y = 9},
-          levelstr = [[
-#########
-# a   b #
-#   #   #
-#       #
-#|||||||#
-#|||||||#
-#|||||||#
-#|B|||A|#
-#########]]
-        },
-        objects.Level:new {
-          name = "",
-          size = {x = 10, y = 10},
-          levelstr = [[
-##########
-#  522   #
-#  522   #
-#  522   #
-#  522   #
-#  122   #
-# x122   #
-###022   #
-# X 55   #
-##########]]
-        },
-        objects.Level:new {
-          name = "Ruby on Rails",
-          size = {x = 10, y = 10},
-          levelstr = [[
-##########
-#5-35a--1#
-#|-||517|#     
-#33|||||7#
-#7- 151||#
-#| ||1513#
-#5-35 --|#
-#|7|7-1-|#
-#55-3|A13#
-##########]]
-        },
-      }
-    },
-    objects.Handful:new{
-      name = "The Final Four?",
-      end_menu = generate_end_menu("Congratulations! You've defeated quite a few handfuls of these"),
-      levels = {
-        objects.Level:new {
-          name = "A hole in time",
-          size = {x = 9, y = 10},
-          levelstr = [[
-#########
-#   #   #
-# t # X #
-#   #   #
-#   #   #
-#   #   #
-#   #   #
-# x # t #
-#   #   #
-#########]]
-        },
-        objects.Level:new {
-          name = "Zounds",
-          size = {x = 9, y = 9},
-          levelstr = [[
-#########
-#a t#u b#
-# C # D #
-#  U#T  #
-#########
-#u  #  t#
-# B # A #
-#d U#T c# 
-#########
-]]
-        }
-      }
-    }
-  } 
+  handfuls = initialize_handfuls()
     
   
 
@@ -537,4 +263,33 @@ function generate_end_menu(name)
     }
   }
   return end_menu
+end
+
+function initialize_handfuls()
+  local handfuls = {}
+  local files = love.filesystem.getDirectoryItems("/resources/levels")
+  for _, file in ipairs(files) do -- for each handful
+    curr_handful = objects.Handful:new{
+      end_menu = generate_end_menu("Congratulations"),
+      levels = {}
+    }
+    curr_level = objects.Level:new{size = {y = 0}}
+    for line in love.filesystem.lines("/resources/levels/" .. file) do -- for each line in file
+      if line:find("^handful") then
+        curr_handful.name = line:match("^handful (.+)$")
+      elseif line:find("^name") then
+        curr_level.name = line:match("^name (.+)$")
+        curr_level.levelstr = ""
+      elseif line:find("^#") then
+        curr_level.size.x = string.len(line)
+        curr_level.levelstr = curr_level.levelstr .. line .. "\n"
+        curr_level.size.y = curr_level.size.y + 1
+      else
+        table.insert(curr_handful.levels, curr_level)
+        curr_level = objects.Level:new{size = {y = 0}}
+      end
+    end
+    table.insert(handfuls, curr_handful)
+  end
+  return handfuls
 end
