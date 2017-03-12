@@ -276,6 +276,7 @@ function Grid:to_canvas()
 end
 
 local Menu = Object:new {
+  on_open = nil,
   name  = "",
   items = {},
   selected_item = 1,
