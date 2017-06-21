@@ -1,7 +1,8 @@
 
 resources = require 'resources'
-algs      = require 'algs'
 objects   = require 'objects'
+algs      = require 'algs'
+
 local Direction = objects.Direction
 
 -- enum to keep track of our current state,
@@ -16,6 +17,7 @@ local GameMode = {
   MOVES = {},
   NORMAL = {}
 }
+
 function love.load()
   -- set graphics modes
   SCREEN_WIDTH = 500
@@ -115,7 +117,7 @@ function love.draw()
     local level_name = handfuls[selected_handful_no].levels[selected_level_no].name
     love.graphics.print(level_name, math.floor(SCREEN_WIDTH/2 - resources.fonts.main_font:getWidth(level_name)/2), math.floor(SCREEN_HEIGHT/2 - level_canvas:getHeight()/2) + 12)
   elseif game_state == GameState.IN_MENU then
-    love.graphics.print(current_menu:to_string())
+    current_menu:draw()
   end
   
   if game_mode == GameMode.TIME then
@@ -163,7 +165,10 @@ function main_menu()
       objects.MenuItem:new {
         name="Quit", func=function() love.event.quit(0) end
       }
-    }
+    },
+    draw = function(self)
+      love.graphics.print(self:to_string(), 50, 50)
+    end
   }
 end
 

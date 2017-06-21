@@ -1,5 +1,5 @@
-
-resources = require 'resources'
+--algs      = require 'algs'
+--resources = require 'resources'
 
 -- Object, the root of our inheritance tree
 local Object = {}
@@ -43,7 +43,7 @@ local Direction = {
 }
 
 local Color = {
-   RED    = {},
+  RED    = {},
   BLUE   = {},
   YELLOW = {},
   GREEN  = {}
@@ -283,6 +283,10 @@ local Menu = Object:new {
   body = ""
 }
 
+function Menu:draw()
+  love.graphics.print(self:to_string())
+end
+
 function Menu:to_string()
   local str = self.name .. "\n"
   for item_no, menu_item in ipairs(self.items) do
@@ -364,12 +368,6 @@ local Handful = Object:new {
   levels = {}, -- a list of the levels comprising the handful
 }
 
-function Handful:new(o)
-  o = o or {}
-  setmetatable(o, self)
-  self.__index = self
-  return o
-end
 
 exports = {
   Object    = Object,
